@@ -7,7 +7,7 @@
  	
 	Teremos um tela com um botão central (iniciar)	
 	
-1. Introdução
+## 1. Introdução
 Este trabalho tem como foco o uso da programação orientada a objetos juntamente com o uso da
 biblioteca LibGdx. Seu objetivo e explorar aspectos avançados da biblioteca no desenvolvimento de
 aplicações multimídia complexas. Para realizar a programação deste trabalho é necessário o conhecimento inicial de classes, objetos e
@@ -16,7 +16,7 @@ novo. Objetivos:
 * Aprender a lidar com coleções de objetos. 
 * Ampliar o conhecimento da linguagem Java por meio de técnicas de programação
 
-2. Tarefas
+## 2. Tarefas
 O programa a ser criado consiste em uma recriação de um título do antigo console de vídeo games Atari, ou outro console mais novo. Para desenvolver a tarefa utilizaremos a biblioteca LibGdx. Siga os tutoriais de instalação e uso da biblioteca indicados na referência [1].
 
 Orientações de programação:
@@ -45,7 +45,7 @@ devam interagir com o jogador. Esse conjunto deve ser organizado em listas. o É
 9. Os programas devem ter uma estrutura de evolução (mais de uma fase, evolução gradual da
 partida ou dos inimigos).
 
-3. Conclusão
+## 3. Conclusão
 O trabalho visa o pleno desempenho dos estudantes no uso dos conceitos tratados, para isso procure
 utilizar as dicas de programação dadas aqui. No caso de dúvidas procure os professores e os monitores de Informática. Visite o site do professor e do Grupo de desenvolvimento de jogos para mais informações:
 www.alissonrs.com.br e http://gpjecc.blogspot.com.br/
@@ -63,7 +63,9 @@ estudando. Funcionalidades extras adicionadas no trabalho podem valer pontos ext
 seu grupo e que seja comunicado ao professor com antecedência – identifique-as no relatório e
 comunique o professor. Dicas Atari
 Na referência [4] é possível jogar online jogos Atari. Para isso vocês precisarão dos ‘cartuchos’. Arquivos
-de rom que você pode baixar no link [5]. Em [6] há versões prontas de jogos Atari para serem rodados. [7] Fornece listas de sites com recursos (som, imagens, sprites) para uso em seus jogos. 4. Referências
+de rom que você pode baixar no link [5]. Em [6] há versões prontas de jogos Atari para serem rodados. [7] Fornece listas de sites com recursos (som, imagens, sprites) para uso em seus jogos. 
+
+## 4. Referências
 [1] Tutoriais SDL, visitado em: <03/05/2016>; disponível em:
 <http://gpjecc.blogspot.com.br/search/label/SDL>
 [2] The Java™ Tutorials Download Ebooks-Trail: Collections: Table of Contents, visitado em:
