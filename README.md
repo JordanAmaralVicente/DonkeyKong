@@ -79,30 +79,31 @@ ___
 # Acerca do Desenvolvimento propriamente dito
 
 ## Regras do Jogo Donkey Kong
-1. STEP 1: Get Started
+
+1.      STEP 1: Get Started
         To start a game immediately after turning on your Video
         Computer System, just press the Red Button on your controller.
         To play another game, press GAME RESET
         To activate Mario and start action, press the RED Button
  
-2. STEP 2: Making it to the Top
+2.      STEP 2: Making it to the Top
         When the first of your three Marios appears on the ramps, try
         to get him to the top to save his girlfriend. If Mario is hit by a
         barrel, he is eliminated. Climb the unbroken ladders to reach the
         next ramp! Mario cannot climb broken ladders
  
-3. STEP 3: Hammer Away!
+3.      STEP 3: Hammer Away!
         If mario jumps up and grabs the hammer, he can face the
         barrels and hit them for extra points. But if the hammer misses
         and the barrel hits Mario, he's eliminated! And remember - he
         can't climb ladders with the hammer, and the hammer disappears
         in a few seconds
  
-4. STEP 4: How Time Flies...
+4.      STEP 4: How Time Flies...
         The Score/Bonus indicator shows your bonus "counting down"
         Watch out! If it reaches ZERO, Mario is elimated!
 
-5. STEP 5: Success or failure?
+5.      STEP 5: Success or failure?
         If you make it to the top of the ramp, the remaining bonus is
         added to your score and move on to the rivet screen. But if you
         fail, Mario is eliminated.
