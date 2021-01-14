@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		//Aqui é aonde o desktop chama o jogo. Localizado na pasta core
 		//PS: Não precisamos Alterar NADA nessa classe
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Title";
+		config.title = "Donkey Kong tela inicial";
 		config.resizable = false;
 		config.width = 640;
 		config.height = 480;
