@@ -62,16 +62,14 @@ professores. O trabalho foi pensado para estar alguns passos a frente na matéri
 estudando. Funcionalidades extras adicionadas no trabalho podem valer pontos extras, desde que sejam únicas no
 seu grupo e que seja comunicado ao professor com antecedência – identifique-as no relatório e
 comunique o professor. Dicas Atari
+
 Na referência [4] é possível jogar online jogos Atari. Para isso vocês precisarão dos ‘cartuchos’. Arquivos
 de rom que você pode baixar no link [5]. Em [6] há versões prontas de jogos Atari para serem rodados. [7] Fornece listas de sites com recursos (som, imagens, sprites) para uso em seus jogos. 
 
 ## 4. Referências
-[1] Tutoriais SDL, visitado em: <03/05/2016>; disponível em:
-<http://gpjecc.blogspot.com.br/search/label/SDL>
-[2] The Java™ Tutorials Download Ebooks-Trail: Collections: Table of Contents, visitado em:
-<03/05/2016>; disponível em:< http://docs.oracle.com/javase/tutorial/collections/TOC.html >
-[3] SlideSahre - Java 12 Colecoes, visitado em: <03/05/2016>; disponível em: <
-http://pt.slideshare.net/regispires/java-12-colecoes-presentation >
-[4] JavAtari.js - visitado em: <03/05/2016>; disponível em: < http://javatari.org/ >
-[5] FreeRoms - visitado em: <03/05/2016>; disponível em: < http://www.freeroms.com/atari.htm >
-[6] Portal Atari - visitado em: <03/05/2016>; disponível em: < http://www.portalatari.com.br/ >
++ [1] Tutoriais SDL, visitado em: <03/05/2016>; disponível em: [Tutorial SDL](http://gpjecc.blogspot.com.br/search/label/SDL)
++ [2] The Java™ Tutorials Download Ebooks-Trail: Collections: Table of Contents, visitado em: <03/05/2016>; disponível em:[Tutorial de Java](http://docs.oracle.com/javase/tutorial/collections/TOC.html)
++ [3] SlideSahre - Java 12 Colecoes, visitado em: <03/05/2016>; disponível em: [Coleções em Java](http://pt.slideshare.net/regispires/java-12-colecoes-presentation)
++ [4] JavAtari.js - visitado em: <03/05/2016>; disponível em: [Java Atari - js](http://javatari.org/)
++ [5] FreeRoms - visitado em: <03/05/2016>; disponível em: [Atari ROMS Downloads](http://www.freeroms.com/atari.htm)
++ [6] Portal Atari - visitado em: <03/05/2016>; disponível em: [Portal Atari](http://www.portalatari.com.br/)
