@@ -4,8 +4,6 @@
 * Guilherme
 * Gustavo
 * Gabriel
- 	
-	Teremos um tela com um botão central (iniciar)	
 	
 ## 1. Introdução
 Este trabalho tem como foco o uso da programação orientada a objetos juntamente com o uso da
