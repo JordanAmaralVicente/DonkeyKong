@@ -2,3 +2,8 @@ com/donkeykong/models/SimpleButton.java
  com.donkeykong.models.SimpleButton
 com/donkeykong/StartGame.java
  com.donkeykong.StartGame
+com/donkeykong/Tela2.java
+ com.donkeykong.Tela2
+com/donkeykong/Tela1.java
+ com.donkeykong.Tela1
+ com.donkeykong.Tela1$1
