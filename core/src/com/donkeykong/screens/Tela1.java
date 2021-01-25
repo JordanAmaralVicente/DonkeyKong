@@ -1,4 +1,4 @@
-package com.donkeykong;
+package com.donkeykong.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

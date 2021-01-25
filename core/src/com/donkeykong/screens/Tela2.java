@@ -1,10 +1,9 @@
-package com.donkeykong;
+package com.donkeykong.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.donkeykong.screens.StartGame;
 
 public class Tela2 extends ScreenAdapter {
     StartGame game;
