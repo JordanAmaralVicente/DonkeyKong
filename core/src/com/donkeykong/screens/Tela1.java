@@ -28,9 +28,10 @@ public class Tela1 extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        game.cam.update();
 
         {//Início das configurações da janela do Jogo
-            Gdx.gl.glClearColor(0, 1, 1, 1);
+            Gdx.gl.glClearColor(1, 1, 1, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             Gdx.graphics.setTitle("Tela 1");
             //Tamanho da janela: 640x480
@@ -39,17 +40,23 @@ public class Tela1 extends ScreenAdapter {
 
         {//Início da criação das imagens na tela
             game.batch.begin();
-            game.btnStart.update(game.batch, 0, 0);
+            //game.btnStart.update(game.batch, 0, 0);
+            //game.ponteSpriteE.draw(game.batch);
+            //game.ponteSpriteW.draw(game.batch);
+            game.stageSprite.draw(game.batch);
             game.batch.end();
         }//Fim da criação das imagens na tela
 
         //Início das verificações de input
 
+
         if (Gdx.input.isTouched()) { // Verifica se o Botão foi clicado através do mouse
             System.out.println("Input X: " + Gdx.input.getX() + "\n Input Y: " + Gdx.input.getY());
+           /*
             if(game.btnStart.checkIfClicked(Gdx.input.getX(), Gdx.input.getY())){
                 game.setScreen(new Tela2(game));
-            }
+            }*/
+
         }
     }//Fim das verificações de input
 
