@@ -33,7 +33,7 @@ public class StartGame extends Game {
 
         //ponteE = new Texture(Gdx.files.internal("Walkway 2 E.png"));
         //ponteW = new Texture(Gdx.files.internal("Walkway 2 W.png"));
-        stage = new Texture(Gdx.files.internal("stage1.png"));
+        stage = new Texture(Gdx.files.internal("cenarios/stage_1.png"));
 
         //ponteSpriteE = new Sprite(ponteE, 0, 0, 64, 64);
         //ponteSpriteW = new Sprite(ponteW, 0, 0, 128, 128);
