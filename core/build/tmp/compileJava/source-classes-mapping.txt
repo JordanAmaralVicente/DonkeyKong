@@ -1,23 +1,31 @@
-com/donkeykong/models/Posicao.java
- com.donkeykong.models.Posicao
-com/donkeykong/models/Imagem.java
- com.donkeykong.models.Imagem
 com/donkeykong/models/Barril.java
  com.donkeykong.models.Barril
-com/donkeykong/models/Pontuacao.java
- com.donkeykong.models.Pontuacao
-com/donkeykong/models/Mario.java
- com.donkeykong.models.Mario
+com/donkeykong/models/Cenario1.java
+ com.donkeykong.models.Cenario1
+com/donkeykong/controllers/Tela2.java
+ com.donkeykong.controllers.Tela2
 com/donkeykong/models/SimpleButton.java
  com.donkeykong.models.SimpleButton
+com/donkeykong/models/Pontuacao.java
+ com.donkeykong.models.Pontuacao
+com/donkeykong/models/Imagem.java
+ com.donkeykong.models.Imagem
+com/donkeykong/models/Posicao.java
+ com.donkeykong.models.Posicao
 com/donkeykong/models/Princesa.java
  com.donkeykong.models.Princesa
-com/donkeykong/screens/Tela2.java
- com.donkeykong.screens.Tela2
-com/donkeykong/screens/StartGame.java
- com.donkeykong.screens.StartGame
-com/donkeykong/screens/Tela1.java
- com.donkeykong.screens.Tela1
- com.donkeykong.screens.Tela1$1
 com/donkeykong/models/Macaco.java
  com.donkeykong.models.Macaco
+com/donkeykong/models/Acoes.java
+ com.donkeykong.models.Acoes
+com/donkeykong/models/Escada.java
+ com.donkeykong.models.Escada
+com/donkeykong/controllers/StartGame.java
+ com.donkeykong.controllers.StartGame
+com/donkeykong/controllers/Tela1.java
+ com.donkeykong.controllers.Tela1
+ com.donkeykong.controllers.Tela1$1
+ com.donkeykong.controllers.Tela1$2
+com/donkeykong/models/Mario.java
+ com.donkeykong.models.Mario
+ com.donkeykong.models.Mario$1

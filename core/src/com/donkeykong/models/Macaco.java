@@ -14,7 +14,6 @@ public class Macaco {
     private int     posicaoX    ;
     private int     posicaoY    ;
 
-
     public void atualizaImagem(boolean direcao) {
         if(direcao){
             this.spriteMacaco.setTexture(this.imageRight);
@@ -24,11 +23,9 @@ public class Macaco {
         }
     }
 
-
     public Macaco(int posX, int posY){
         this.posicaoX = posX;
         this.posicaoY = posY;
-
     }
 
     public Macaco(int posX, int posY, int height, int width){
@@ -42,7 +39,6 @@ public class Macaco {
         this.spriteMacaco.setPosition(this.posicaoX, this.posicaoY);
         this.spriteMacaco.setSize(this.width, this.height);
     }
-
 
     public void draw(SpriteBatch batch){
         this.spriteMacaco.draw(batch);

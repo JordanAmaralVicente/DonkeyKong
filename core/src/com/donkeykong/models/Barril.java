@@ -24,7 +24,7 @@ public class Barril implements  Posicao{
     }
 
     @Override
-    public void atualizaPosicao() {
+    public void atualizaPosicao(int x, int y) {
 
     }
 }
