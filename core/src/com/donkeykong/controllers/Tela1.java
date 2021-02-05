@@ -1,10 +1,18 @@
 package com.donkeykong.controllers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
 import com.donkeykong.models.*;
@@ -13,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tela1 extends ScreenAdapter {
+
     Stage stage;
     StartGame game;
     Mario mario;
@@ -20,8 +29,14 @@ public class Tela1 extends ScreenAdapter {
     Princesa princesa;
     Cenario1 cenario1;
     List<Escada> stairs = new ArrayList<>(); //lista para mapear as posicoes das escadas
-
     boolean escada;
+
+    Texture img;
+    TiledMap tiledMap;
+    TiledMapRenderer tiledMapRenderer;
+
+    World world;
+    Box2DDebugRenderer b2dr;
 
     public Tela1(StartGame game) {
         this.game = game;
@@ -32,76 +47,75 @@ public class Tela1 extends ScreenAdapter {
         cenario1 = new Cenario1(stage, 0, 0, 500, 500); //CENARIO DE FUNDO
 
         stairs.add(new Escada(421, 17, 12, 64)); //MAPEEI APENAS A PRIMEIRA ESCADA
+
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        game.cam.update();
+
+        tiledMap = new TmxMapLoader().load("cenarios/img.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+
+        world = new World(new Vector2(0,-10), true);
+        b2dr = new Box2DDebugRenderer();
+
+        BodyDef bdef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fdef = new FixtureDef();
+        Body body;
+
+        for(MapObject object : tiledMap.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rect.getX() + rect.getWidth() /2 , rect.getY() + rect.getHeight() / 2);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            fdef.shape = shape;
+            body.createFixture(fdef);
+        }
+
+        for(MapObject object : tiledMap.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rect.getX() + rect.getWidth() /2 , rect.getY() + rect.getHeight() / 2);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            fdef.shape = shape;
+            body.createFixture(fdef);
+        }
     }
 
     @Override
     public void render(float delta) {
+        //handleInput(delta);
+
+        tiledMapRenderer.setView(game.cam);
+        tiledMapRenderer.render();
+
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.cam.update();
+        tiledMapRenderer.setView(game.cam);
+        tiledMapRenderer.render();
 
-        {//Início das configurações da janela do Jogo
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            Gdx.graphics.setTitle("Tela 1");
-            //Tamanho da janela: 500x550
-        }//Fim das configurações de jane
-
-        //Início das verificações de input
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) { //direita
-            this.donkeyKong.atualizaImagem(true);
-
-            if (Mario.canMove) {
-                mario.atualizaImagem(Mario.status);
-                mario.mover(Acoes.MOVE_RIGHT, stairs);
-                Mario.canMove = false;
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        Mario.canMove = true;
-                    }
-                }, 0.05f); //sem o timer o mario anda mt rapido
-
-            }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) { //esquerda
-            this.donkeyKong.atualizaImagem(false);
-
-            if (Mario.canMove) {
-                mario.atualizaImagem(Mario.status);
-                mario.mover(Acoes.MOVE_LEFT, stairs);
-                Mario.canMove = false;
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        Mario.canMove = !Mario.canMove;
-                    }
-                }, 0.05f);
-            }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) { //cima
-            mario.mover(Acoes.MOVE_UP, stairs);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) { //baixo
-            mario.mover(Acoes.MOVE_DOWN, stairs);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) { //testes
-            mario.mover(Acoes.MOVE_F, stairs);
-        }
+        b2dr.render(world, game.cam.combined);
 
         {//Início da criação das imagens na tela
             game.batch.begin();
-            this.donkeyKong.draw(game.batch);
+            //this.donkeyKong.draw(game.batch);
             game.batch.end();
 
-            stage.act(delta); //desenha todos os atores
-            stage.draw();
+            //stage.act(delta); //desenha todos os atores
+            //stage.draw();
         }//Fim da criação das imagens na tela
 
     }//Fim das verificações de input
+
 }
 

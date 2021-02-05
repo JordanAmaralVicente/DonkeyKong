@@ -11,8 +11,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Donkey Kong tela inicial";
 		config.resizable = false;
-		config.width = 500;
-		config.height = 550;
+		config.width = 700;
+		config.height = 705;
 		new LwjglApplication(new StartGame(), config);
 	}
 }

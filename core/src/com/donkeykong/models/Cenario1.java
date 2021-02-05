@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Cenario1 {
     private Image imageStage;
-    private Texture skin;
+    //private Texture skin;
     private int posicaoX, posicaoY;
     private int width, height;
     Stage stage;
@@ -19,13 +19,13 @@ public class Cenario1 {
         this.height = height;
         this.stage = stage;
 
-        skin = new Texture(Gdx.files.internal("cenarios/stage_1.png"));
+        //skin = new Texture(Gdx.files.internal("cenarios/stage_1.png"));
 
-        imageStage = new Image(skin);
-        imageStage.setPosition(this.posicaoX,this.posicaoY);
-        imageStage.setSize(this.width, this.height);
+        //imageStage = new Image(skin);
+        //imageStage.setPosition(this.posicaoX,this.posicaoY);
+        //imageStage.setSize(this.width, this.height);
 
-        this.stage.addActor(imageStage);
+        //this.stage.addActor(imageStage);
     }
 
 }
