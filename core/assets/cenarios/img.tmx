@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="87" height="175" tilewidth="8" tileheight="4" infinite="0" nextlayerid="4" nextobjectid="54">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="87" height="175" tilewidth="8" tileheight="4" infinite="0" nextlayerid="4" nextobjectid="57">
  <tileset firstgid="1" source="imagem.tsx"/>
  <layer id="1" name="grafico" width="87" height="175">
   <data encoding="csv">
@@ -181,10 +181,10 @@
 </data>
  </layer>
  <objectgroup id="3" name="escada">
-  <object id="27" x="620" y="425.25" width="26.5" height="124.25"/>
+  <object id="27" x="619" y="427.25" width="26.5" height="124.25"/>
   <object id="29" x="645" y="550" width="28" height="125"/>
-  <object id="31" x="318.182" y="551.455" width="27.8182" height="124"/>
-  <object id="38" x="17.3333" y="549.667" width="26.3333" height="124.333"/>
+  <object id="31" x="317.849" y="550.122" width="27.8182" height="124"/>
+  <object id="38" x="18.6666" y="552.334" width="26.3333" height="124.333"/>
   <object id="39" x="444.75" y="425.5" width="26" height="125"/>
   <object id="42" x="468.909" y="173.667" width="27.0909" height="125.136"/>
   <object id="43" x="570.5" y="173.5" width="26" height="125"/>
@@ -197,7 +197,7 @@
   <object id="53" x="194" y="174.208" width="26" height="125.917"/>
  </objectgroup>
  <objectgroup id="2" name="chao">
-  <object id="2" x="0.125" y="675.75" width="693.375" height="24.25"/>
+  <object id="2" x="-0.875" y="677.416" width="696.708" height="24.25"/>
   <object id="4" x="192.313" y="551.875" width="125.875" height="24.25"/>
   <object id="5" x="44.1004" y="550.542" width="124.92" height="26.25"/>
   <object id="6" x="518.813" y="550.875" width="125.875" height="24.25"/>
