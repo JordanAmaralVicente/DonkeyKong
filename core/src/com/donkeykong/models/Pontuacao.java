@@ -5,7 +5,6 @@ public class Pontuacao {
     private int    pontuacaoInicial ;
     private int    pontuacaoFinal   ;
 
-
     public Pontuacao(){
 
     }

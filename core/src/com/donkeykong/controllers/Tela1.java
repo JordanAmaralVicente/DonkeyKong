@@ -56,7 +56,7 @@ public class Tela1 extends ScreenAdapter {
 
         {//Início da criação das imagens na tela
             game.batch.begin();
-            this.donkeyKong.draw(game.batch);
+            donkeyKong.draw(game.batch);
             mario.draw(game.batch);
             game.batch.end();
         }//Fim da criação das imagens na tela
@@ -64,7 +64,7 @@ public class Tela1 extends ScreenAdapter {
     }
 
     public void handleInput(float dt) {
-        //Forças que atuam no mario
+        //Forças que atuam em todos corpos
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if(Mario.activateStair)
             mario.corpo.applyLinearImpulse(new Vector2(0, 2f), mario.corpo.getWorldCenter(), true);
@@ -77,10 +77,12 @@ public class Tela1 extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             mario.corpo.applyLinearImpulse(new Vector2(2f, 0), mario.corpo.getWorldCenter(), true);
+            //todo aqui, atualizar, também, a imagem do King Kong para a direita (JORDAN)
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             mario.corpo.applyLinearImpulse(new Vector2(-2f, 0), mario.corpo.getWorldCenter(), true);
+            //todo aqui, atualizar, também, a imagem do King Kong para a esquerda (JORDAN)
         }
 
     }
