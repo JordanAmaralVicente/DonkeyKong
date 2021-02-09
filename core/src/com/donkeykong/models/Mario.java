@@ -13,7 +13,7 @@ public class Mario extends Sprite {
     private final float VELOCIDADE_MAXIMA = 80f;
 
     private Estado estadoAtual;
-
+    private int contagemDeVidas;
     private static final float RUNNING_FRAME_DURATION = 0.25f;
 
     //Texturas
@@ -37,7 +37,7 @@ public class Mario extends Sprite {
 
     public Mario(World world) {
         this.world = world;
-
+        this.contagemDeVidas = 3;
         criaCorpoMario();
         setBounds(20, 70, 40, 40);
         estadoAtual = Estado.PARADO_DIREITA;
@@ -142,5 +142,12 @@ public class Mario extends Sprite {
         setRegion(marioFrame);
     }
 
+    public void diminuiVidas(){
+        this.contagemDeVidas--;
+    }
+
+    public void resetaVidas(){
+        this.contagemDeVidas = 3;
+    }
 
 }

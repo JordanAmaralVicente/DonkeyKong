@@ -8,16 +8,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.donkeykong.models.Estado;
-import com.donkeykong.models.IniciarMundo;
-import com.donkeykong.models.Macaco;
-import com.donkeykong.models.Mario;
+import com.donkeykong.models.*;
+
+import java.util.ArrayList;
 
 public class Tela1 extends ScreenAdapter {
     //Box2D variaveis
     World mundo;
     Box2DDebugRenderer b2dr;
     IniciarMundo iniciarMundo;
+    Deck deckDeVidas;
 
     //Tiledmap variables
     TiledMapRenderer renderizadorMapa;
@@ -36,6 +36,8 @@ public class Tela1 extends ScreenAdapter {
         mundo = iniciarMundo.getMundo();
         b2dr = iniciarMundo.getRenderizadorBox2D();
         renderizadorMapa = iniciarMundo.getRenderizadorMapa();
+
+        deckDeVidas = new Deck();
 
         mario = new Mario(mundo);
 
@@ -57,6 +59,7 @@ public class Tela1 extends ScreenAdapter {
         {//Início da criação das imagens na tela
             game.batch.begin();
             donkeyKong.draw(game.batch);
+            deckDeVidas.draw(game.batch);
             mario.draw(game.batch);
             game.batch.end();
         }//Fim da criação das imagens na tela
@@ -83,6 +86,14 @@ public class Tela1 extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             mario.corpo.applyLinearImpulse(new Vector2(-2f, 0), mario.corpo.getWorldCenter(), true);
             //todo aqui, atualizar, também, a imagem do King Kong para a esquerda (JORDAN)
+        }
+
+        //TESTE DO FUNCIONAMENTO DA PERCA DE VIDA SEM SER NO MÁRIO
+        if(Gdx.input.isKeyPressed(Input.Keys.X)){
+            if(!deckDeVidas.atualizarVida()){
+                //todo como o render atualiza muitas vezes por segundo, ele perde todas vidas de uma vez só
+                //por isso, quem for fazer a parada dos fogos, verificar quando o mario está sendo tocado para atualizar vida
+            }
         }
 
     }
