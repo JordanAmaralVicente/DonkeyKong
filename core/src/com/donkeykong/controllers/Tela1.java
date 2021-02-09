@@ -17,15 +17,17 @@ public class Tela1 extends ScreenAdapter {
     World mundo;
     Box2DDebugRenderer b2dr;
     IniciarMundo iniciarMundo;
-    Deck deckDeVidas;
+
 
     //Tiledmap variables
     TiledMapRenderer renderizadorMapa;
 
     //Game models variables
     StartGame game;
-    Mario mario;
+    Mario mario; //todo o mario está saindo da tela e caindo. Resolver isso. Criar um verificador disso quando for atualizar a posicao
     Macaco donkeyKong;
+    Deck deckDeVidas;
+    Pontuacao pontos;
 
 
     public Tela1(StartGame game) {
@@ -38,7 +40,7 @@ public class Tela1 extends ScreenAdapter {
         renderizadorMapa = iniciarMundo.getRenderizadorMapa();
 
         deckDeVidas = new Deck();
-
+        pontos = new Pontuacao();
         mario = new Mario(mundo);
 
         donkeyKong = new Macaco(10, 490, 50, 50); //DK
@@ -67,6 +69,7 @@ public class Tela1 extends ScreenAdapter {
     }
 
     public void handleInput(float dt) {
+
         //Forças que atuam em todos corpos
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if(Mario.activateStair)

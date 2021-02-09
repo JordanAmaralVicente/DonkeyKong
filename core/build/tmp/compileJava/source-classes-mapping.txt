@@ -24,13 +24,13 @@ com/donkeykong/models/Mario.java
  com.donkeykong.models.Mario$1
 com/donkeykong/models/ContactListener.java
  com.donkeykong.models.ContactListener
-com/donkeykong/models/Pontuacao.java
- com.donkeykong.models.Pontuacao
-com/donkeykong/models/Vida.java
- com.donkeykong.models.Vida
 com/donkeykong/models/Deck.java
  com.donkeykong.models.Deck
+com/donkeykong/models/Vida.java
+ com.donkeykong.models.Vida
 com/donkeykong/controllers/StartGame.java
  com.donkeykong.controllers.StartGame
+com/donkeykong/models/Pontuacao.java
+ com.donkeykong.models.Pontuacao
 com/donkeykong/controllers/Tela1.java
  com.donkeykong.controllers.Tela1
