@@ -63,9 +63,11 @@ public class Tela1 extends ScreenAdapter {
             donkeyKong.draw(game.batch);
             deckDeVidas.draw(game.batch);
             mario.draw(game.batch);
+            pontos.draw(game.batch);
             game.batch.end();
         }//Fim da criação das imagens na tela
 
+        pontos.atualizaPontosPeloTempo();
     }
 
     public void handleInput(float dt) {
