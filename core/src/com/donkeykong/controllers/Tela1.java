@@ -43,7 +43,7 @@ public class Tela1 extends ScreenAdapter {
         pontos = new Pontuacao();
         mario = new Mario(mundo);
 
-        donkeyKong = new Macaco(10, 490, 50, 50); //DK
+        donkeyKong = new Macaco(10, 490, 100, 100); //DK
         renderizadorMapa.setView(game.cam);
     }
 
@@ -60,7 +60,7 @@ public class Tela1 extends ScreenAdapter {
 
         {//Início da criação das imagens na tela
             game.batch.begin();
-            donkeyKong.draw(game.batch);
+            donkeyKong.draw(game.batch, delta);
             deckDeVidas.draw(game.batch);
             mario.draw(game.batch);
             pontos.draw(game.batch);
