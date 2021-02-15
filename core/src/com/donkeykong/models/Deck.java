@@ -10,9 +10,9 @@ public class Deck {
     public Deck(){
         this.vidas = 3;
         this.deckDeVidas = new ArrayList<>();
-        this.deckDeVidas.add(new Vida(32, 32, 100, 100));
-        this.deckDeVidas.add(new Vida(32, 32, 142, 100));
-        this.deckDeVidas.add(new Vida(32, 32, 182, 100));
+        this.deckDeVidas.add(new Vida(48, 48, 550, 660));
+        this.deckDeVidas.add(new Vida(48, 48, 592, 660));
+        this.deckDeVidas.add(new Vida(48, 48, 634, 660));
     }
 
     public void draw(SpriteBatch batch){
