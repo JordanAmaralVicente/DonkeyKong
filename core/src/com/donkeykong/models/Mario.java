@@ -7,119 +7,129 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.donkeykong.controllers.StartGame;
 
 public class Mario extends Sprite {
-    private final float VELOCIDADE_MAXIMA = 80f;
+    //Constantes
+    private static final float RUNNING_FRAME_DURATION = 0.25f;
+    public World mundo;
 
+    //Controle de condicoes
     private Estado estadoAtual;
     private int contagemDeVidas;
-    private static final float RUNNING_FRAME_DURATION = 0.25f;
-
+    private boolean facingRight = true;
+    private boolean estaComOMartelo;
+    public static boolean activateStair = false;
+    private int vida;
+    
     //Texturas
     private TextureRegion marioParadoEsquerda;
     private TextureRegion marioParadoDireita;
     private TextureRegion marioEscalando;
     private TextureRegion marioFrame;
-
-    private Animation<TextureRegion> walkLeftAnimation;
-    private Animation<TextureRegion> walkRightAnimation;
-
-    private Sound som;
-    private boolean estaComOMartelo;
-    private int height, width;
-    private int posicaoX, posicaoY;
-    private int vida;
-    public Body corpo;
-    public World world;
+    
+    //Animacoes
+    private Animation<TextureRegion> andandoEsquerdaAnimacao;
+    private Animation<TextureRegion> andandoDireitaAnimacao;
     float stateTime = 0f;
-    public static boolean activateStair = false;
-
-    public Mario(World world) {
-        this.world = world;
+    
+    //Componentes do personagem
+    private Sound som;
+    private int posicaoX, posicaoY;
+    public Body corpo;
+    
+    public Mario(int posicaoX, int posicaoY, World mundo) {
+        super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 70, 35);
+        this.posicaoX = posicaoX;
+        this.posicaoY = posicaoY;
+        this.mundo = mundo;
         this.contagemDeVidas = 3;
-        criaCorpoMario();
-        setBounds(20, 70, 40, 40);
+        
         estadoAtual = Estado.PARADO_DIREITA;
-
+        criaCorpoMario();
         loadTextures();
-    }
-
-    public Estado getEstadoAtual() {
-        return estadoAtual;
-    }
-
-    public void setEstadoAtual(Estado estadoAtual) {
-        this.estadoAtual = estadoAtual;
     }
 
     //https://github.com/libgdx/libgdx/wiki/2D-Animation
     //https://www.javacodegeeks.com/2013/02/android-game-development-with-libgdx-animation-part-2.html
     private void loadTextures() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("personagens/marioAnimacao/animacao.txt"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("personagens/marioAnimacao/marioAnimacao.txt"));
 
         marioParadoEsquerda = atlas.findRegion("Mario-01");
         marioParadoDireita = new TextureRegion(marioParadoEsquerda);
         marioParadoDireita.flip(true, false);
-        marioEscalando = atlas.findRegion("Mario-04");
+        marioEscalando = new TextureRegion(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-04.png")));
 
-        TextureRegion[] walkLeftFrames = new TextureRegion[2];
+        TextureRegion[] andandoEsquerdaFrames = new TextureRegion[2];
         for (int i = 0; i < 2; i++) {
-            walkLeftFrames[i] = atlas.findRegion("Mario-0" + (i + 2));
+            andandoEsquerdaFrames[i] = atlas.findRegion("Mario-0" + (i + 1));
         }
-        walkLeftAnimation = new Animation<>(RUNNING_FRAME_DURATION, walkLeftFrames);
+        andandoEsquerdaAnimacao = new Animation<>(RUNNING_FRAME_DURATION, andandoEsquerdaFrames);
 
-        TextureRegion[] walkRightFrames = new TextureRegion[2];
+        TextureRegion[] andandoDireitaFrames = new TextureRegion[2];
         for (int i = 0; i < 2; i++) {
-            walkRightFrames[i] = new TextureRegion(walkLeftFrames[i]);
-            walkRightFrames[i].flip(true, false);
+            andandoDireitaFrames[i] = new TextureRegion(andandoEsquerdaFrames[i]);
+            andandoDireitaFrames[i].flip(true, false);
         }
-        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
+        andandoDireitaAnimacao = new Animation(RUNNING_FRAME_DURATION, andandoDireitaFrames);
     }
 
+    //https://gamedev.stackexchange.com/questions/119143/how-to-fix-the-sprite-that-is-not-drawn-on-the-same-position-as-its-body-after-i
     public void criaCorpoMario() {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(20, 70);
-        corpo = world.createBody(bdef);
+        bdef.position.set(55 / StartGame.CONVERSAO_METRO_PIXEL, 70 / StartGame.CONVERSAO_METRO_PIXEL);
+        corpo = mundo.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(8);
+        //CircleShape shape = new CircleShape();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox((getWidth() / 7f) / StartGame.CONVERSAO_METRO_PIXEL,
+               (getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
+        //shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.shape = shape;
+
         corpo.createFixture(fdef).setUserData("mario");
+    }
+
+    public void mover(float dt, int direcao) {
+        switch (direcao) {
+            case 19:
+                if(Mario.activateStair)
+                    corpo.setLinearVelocity(new Vector2(0,3));
+                break;
+            case 20:
+                if(Mario.activateStair)
+                    corpo.setLinearVelocity(new Vector2(0,-1));
+                break;
+            case 21:
+                corpo.setLinearVelocity(new Vector2(-1,0));
+                facingRight = false;
+                break;
+            case 22:
+                corpo.setLinearVelocity(new Vector2(1,0));
+                facingRight = true;
+                break;
+        }
     }
 
     public void update(float delta) {
         stateTime += delta;
-        setPosition(corpo.getPosition().x - getWidth() / 2, corpo.getPosition().y - getHeight() / 2);
 
-        if(corpo.getLinearVelocity().x == 0)
-            estadoAtual = Estado.PARADO_DIREITA;
+        setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
+                (corpo.getPosition().y) * StartGame.CONVERSAO_METRO_PIXEL);
 
-        if (corpo.getLinearVelocity().x > VELOCIDADE_MAXIMA) {
-            corpo.setLinearVelocity(VELOCIDADE_MAXIMA, corpo.getLinearVelocity().y);
-        }
-
-        if (corpo.getLinearVelocity().x < -(VELOCIDADE_MAXIMA)) {
-            corpo.setLinearVelocity(-(VELOCIDADE_MAXIMA), corpo.getLinearVelocity().y);
-        }
-
-        if(corpo.getLinearVelocity().x > 0){
+        if(corpo.getLinearVelocity().x > 0)
             estadoAtual = Estado.CORRENDO_DIREITA;
-        } else if (corpo.getLinearVelocity().x < 0){
+        else if (corpo.getLinearVelocity().x < 0)
             estadoAtual = Estado.CORRENDO_ESQUERDA;
-        }
 
-        if(corpo.getLinearVelocity().y > 0 || corpo.getLinearVelocity().y < 0){
-            if(corpo.getLinearVelocity().x >= 0)
-                estadoAtual = Estado.PARADO_DIREITA;
-            else
-                estadoAtual = Estado.PARADO_ESQUERDA;
-        }
-
-        if(activateStair)
-            estadoAtual = Estado.ESCALANDO;
+        if(corpo.getLinearVelocity().x == 0 && facingRight)
+            estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_DIREITA;
+        else if(corpo.getLinearVelocity().x == 0 && !facingRight)
+            estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_ESQUERDA;
 
         switch (estadoAtual) {
             case PARADO_DIREITA:
@@ -129,10 +139,10 @@ public class Mario extends Sprite {
                 marioFrame = marioParadoEsquerda;
                 break;
             case CORRENDO_DIREITA:
-                marioFrame = walkRightAnimation.getKeyFrame(stateTime, true);
+                marioFrame = andandoDireitaAnimacao.getKeyFrame(stateTime, true);
                 break;
             case CORRENDO_ESQUERDA:
-                marioFrame = walkLeftAnimation.getKeyFrame(stateTime, true);
+                marioFrame = andandoEsquerdaAnimacao.getKeyFrame(stateTime, true);
                 break;
             case ESCALANDO:
                 marioFrame = marioEscalando;
@@ -142,11 +152,11 @@ public class Mario extends Sprite {
         setRegion(marioFrame);
     }
 
-    public void diminuiVidas(){
+    public void diminuiVidas() {
         this.contagemDeVidas--;
     }
 
-    public void resetaVidas(){
+    public void resetaVidas() {
         this.contagemDeVidas = 3;
     }
 

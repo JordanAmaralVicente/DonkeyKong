@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class StartGame extends Game {
     SpriteBatch batch;
     OrthographicCamera cam;
+    
+    public final static float CONVERSAO_METRO_PIXEL = 40f;
 
     @Override
     public void create() {
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / StartGame.CONVERSAO_METRO_PIXEL, Gdx.graphics.getHeight() / StartGame.CONVERSAO_METRO_PIXEL);
         batch = new SpriteBatch();
 
         setScreen(new Tela1(this));

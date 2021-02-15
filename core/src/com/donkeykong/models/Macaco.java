@@ -39,9 +39,10 @@ public class Macaco {
         this.posicaoY = posY;
         this.height = height;
         this.width = width;
-        this.imageLeft = new Texture(Gdx.files.internal("personagens/donkey/donkey_left.png"));
-        this.imageRight = new Texture(Gdx.files.internal("personagens/donkey/donkey_right.png"));
-        this.spriteMacaco = new Sprite(this.imageRight);
+        //this.imageLeft = new Texture(Gdx.files.internal("personagens/donkey/donkey_left.png"));
+        //this.imageRight = new Texture(Gdx.files.internal("personagens/donkey/donkey_right.png"));
+        //this.spriteMacaco = new Sprite(this.imageRight);
+        this.spriteMacaco = new Sprite();
         this.spriteMacaco.setPosition(this.posicaoX, this.posicaoY);
         this.spriteMacaco.setSize(this.width, this.height);
 

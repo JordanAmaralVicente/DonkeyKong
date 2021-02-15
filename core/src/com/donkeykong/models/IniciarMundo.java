@@ -21,12 +21,12 @@ public class IniciarMundo {
 
     public IniciarMundo() {
         //Primeiro o mundo
-        mundo = new World(new Vector2(0, -10), true);
+        mundo = new World(new Vector2(0, -20), true);
         renderizadorBox2D = new Box2DDebugRenderer();
 
         //Depois o mapa
         mapa = new TmxMapLoader().load("cenarios/img.tmx");
-        renderizadorMapa = new OrthogonalTiledMapRenderer(mapa);
+        renderizadorMapa = new OrthogonalTiledMapRenderer(mapa, 1 / 40f);
 
         //Renderizando objetos do mapa
         //Crio essas variaveis do lado de fora do for para não precisar declarar a cada passagem
@@ -42,11 +42,11 @@ public class IniciarMundo {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2),
-                    (rect.getY() + rect.getHeight() / 2));
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) /40f,
+                    (rect.getY() + rect.getHeight() / 2) /40f);
             body = mundo.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            shape.setAsBox(rect.getWidth() / 2 /40f, rect.getHeight() / 2 /40f);
             fdef.shape = shape;
             fdef.isSensor = true; //isso serve para o mario não colidir com a escada
             body.createFixture(fdef).setUserData("escada");
@@ -59,12 +59,12 @@ public class IniciarMundo {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2),
-                    (rect.getY() + rect.getHeight() / 2));
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) /40f,
+                    (rect.getY() + rect.getHeight() / 2) /40f);
 
             body = mundo.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            shape.setAsBox(rect.getWidth() / 2 /40f, rect.getHeight() / 2 /40f) ;
             fdef.shape = shape;
             fdef.isSensor = false;
             body.createFixture(fdef).setUserData("chao");

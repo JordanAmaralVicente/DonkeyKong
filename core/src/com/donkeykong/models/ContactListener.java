@@ -29,7 +29,6 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
     public void endContact(Contact contact) {
         Mario.activateStair = false;
         System.out.println(Mario.activateStair);
-
     }
 
     @Override
