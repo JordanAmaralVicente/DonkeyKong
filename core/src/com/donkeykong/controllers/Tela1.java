@@ -25,7 +25,7 @@ public class Tela1 extends ScreenAdapter {
 
     //Game models variables
     StartGame game;
-    Mario mario; //todo o mario está saindo da tela e caindo. Resolver isso. Criar um verificador disso quando for atualizar a posicao
+    Mario mario;
     Macaco donkeyKong;
     Deck deckDeVidas;
     Pontuacao pontos;
@@ -43,7 +43,7 @@ public class Tela1 extends ScreenAdapter {
         pontos = new Pontuacao();
         mario = new Mario(20,70, mundo);
 
-        donkeyKong = new Macaco(10, 490, 100, 100); //DK
+        donkeyKong = new Macaco(300, 495, 100, 100); //DK
         renderizadorMapa.setView(game.cam);
     }
 
@@ -68,7 +68,9 @@ public class Tela1 extends ScreenAdapter {
             game.batch.end();
         }//Fim da criação das imagens na tela
 
-        pontos.atualizaPontosPeloTempo();
+        if(!pontos.atualizaPontosPeloTempo()){
+            this.dispose();
+        }
     }
 
     public void handleInput(float dt) {
@@ -82,8 +84,11 @@ public class Tela1 extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             mario.mover(dt, Input.Keys.RIGHT);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             mario.mover(dt, Input.Keys.LEFT);
+            pontos.atualizarPontuacao(99);
+        }
+
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             mario.mover(dt, Input.Keys.SPACE);
