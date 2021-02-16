@@ -21,32 +21,34 @@ public class Mario extends Sprite {
     private int contagemDeVidas;
     private boolean facingRight = true;
     private boolean estaComOMartelo;
-    public static boolean activateStair = false;
+    public static boolean estouNaEscada = false, estouNoChao = true;
     private int vida;
-    
+
     //Texturas
     private TextureRegion marioParadoEsquerda;
     private TextureRegion marioParadoDireita;
     private TextureRegion marioEscalando;
+    private TextureRegion marioPulandoEsquerda;
+    private TextureRegion marioPulandoDireita;
     private TextureRegion marioFrame;
-    
+
     //Animacoes
     private Animation<TextureRegion> andandoEsquerdaAnimacao;
     private Animation<TextureRegion> andandoDireitaAnimacao;
     float stateTime = 0f;
-    
+
     //Componentes do personagem
     private Sound som;
     private int posicaoX, posicaoY;
     public Body corpo;
-    
+
     public Mario(int posicaoX, int posicaoY, World mundo) {
         super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 80, 42);
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.mundo = mundo;
         this.contagemDeVidas = 3;
-        
+
         estadoAtual = Estado.PARADO_DIREITA;
         criaCorpoMario();
         loadTextures();
@@ -61,6 +63,9 @@ public class Mario extends Sprite {
         marioParadoDireita = new TextureRegion(marioParadoEsquerda);
         marioParadoDireita.flip(true, false);
         marioEscalando = new TextureRegion(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-04.png")));
+        marioPulandoEsquerda = new TextureRegion(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-03.png")));
+        marioPulandoDireita = new TextureRegion(marioPulandoEsquerda);
+        marioPulandoDireita.flip(true, false);
 
         TextureRegion[] andandoEsquerdaFrames = new TextureRegion[2];
         for (int i = 0; i < 2; i++) {
@@ -80,15 +85,15 @@ public class Mario extends Sprite {
     public void criaCorpoMario() {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(55 / StartGame.CONVERSAO_METRO_PIXEL, 70 / StartGame.CONVERSAO_METRO_PIXEL);
+        bdef.position.set(posicaoX / StartGame.CONVERSAO_METRO_PIXEL, posicaoY / StartGame.CONVERSAO_METRO_PIXEL);
         corpo = mundo.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        //CircleShape shape = new CircleShape();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((getWidth() / 7f) / StartGame.CONVERSAO_METRO_PIXEL,
-               (getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
-        //shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
+        CircleShape shape = new CircleShape();
+        //PolygonShape shape = new PolygonShape();
+        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
+        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
+        shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.shape = shape;
 
         corpo.createFixture(fdef).setUserData("mario");
@@ -97,12 +102,12 @@ public class Mario extends Sprite {
     public void mover(float dt, int direcao) {
         switch (direcao) {
             case 19:
-                if(Mario.activateStair) {
-                    corpo.setLinearVelocity(new Vector2(0, 3));
+                if (Mario.estouNaEscada){
+                    corpo.setLinearVelocity(new Vector2(0, 1.5f));
                 }
                 break;
             case 20:
-                if(Mario.activateStair) {
+                if (Mario.estouNaEscada){
                     corpo.setLinearVelocity(new Vector2(0, -1));
                 }
                 break;
@@ -113,11 +118,16 @@ public class Mario extends Sprite {
                 }
                 break;
             case 22:
-
                 System.out.println("posicao x"+ (corpo.getPosition().x));
                 if((corpo.getPosition().x) <= 672/40f) {
                     corpo.setLinearVelocity(new Vector2(1, 0));
                     facingRight = true;
+                }
+                break;
+            case 62:
+                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
+                    corpo.setLinearVelocity(new Vector2(0, 3f));
+                    estouNoChao = false;
                 }
                 break;
         }
@@ -129,16 +139,29 @@ public class Mario extends Sprite {
         setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
                 (corpo.getPosition().y) * StartGame.CONVERSAO_METRO_PIXEL);
 
-        if(corpo.getLinearVelocity().x > 0)
+        if (corpo.getLinearVelocity().x > 0 && corpo.getLinearVelocity().y == 0)
             estadoAtual = Estado.CORRENDO_DIREITA;
-        else if (corpo.getLinearVelocity().x < 0)
+        else if (corpo.getLinearVelocity().x < 0 && corpo.getLinearVelocity().y == 0)
             estadoAtual = Estado.CORRENDO_ESQUERDA;
 
-        if(corpo.getLinearVelocity().x == 0 && facingRight)
-            estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_DIREITA;
-        else if(corpo.getLinearVelocity().x == 0 && !facingRight)
-            estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_ESQUERDA;
+        if (corpo.getLinearVelocity().x == 0 && facingRight && corpo.getLinearVelocity().y == 0)
+            //estadoAtual = Estado.PARADO_DIREITA;
+            //estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_DIREITA;
+            estadoAtual = Estado.PARADO_DIREITA;
+        else if (corpo.getLinearVelocity().x == 0 && !facingRight && corpo.getLinearVelocity().y == 0)
+            //estadoAtual = Estado.PARADO_ESQUERDA;
+            //estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_ESQUERDA;
+            estadoAtual = Estado.PARADO_ESQUERDA;
 
+        if (corpo.getLinearVelocity().y != 0 && !Mario.estouNaEscada && facingRight)
+            estadoAtual = Estado.PULANDO_DIREITA;
+        else if (corpo.getLinearVelocity().y != 0 && !Mario.estouNaEscada && !facingRight)
+            estadoAtual = Estado.PULANDO_ESQUERDA;
+
+        if (corpo.getLinearVelocity().y != 0 && Mario.estouNaEscada)
+            estadoAtual = Estado.ESCALANDO;
+
+        //Muda a sprite do MARIO
         switch (estadoAtual) {
             case PARADO_DIREITA:
                 marioFrame = marioParadoDireita;
@@ -154,6 +177,12 @@ public class Mario extends Sprite {
                 break;
             case ESCALANDO:
                 marioFrame = marioEscalando;
+                break;
+            case PULANDO_ESQUERDA:
+                marioFrame = marioPulandoEsquerda;
+                break;
+            case PULANDO_DIREITA:
+                marioFrame = marioPulandoDireita;
                 break;
         }
 

@@ -90,6 +90,9 @@ public class Tela1 extends ScreenAdapter {
         }
 
 
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+            mario.mover(dt, Input.Keys.SPACE);
+
         //TESTE DO FUNCIONAMENTO DA PERCA DE VIDA SEM SER NO MÁRIO
         if(Gdx.input.isKeyPressed(Input.Keys.X)){
             if(!deckDeVidas.atualizarVida()){
