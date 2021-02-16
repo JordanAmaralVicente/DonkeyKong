@@ -1,14 +1,17 @@
 package com.donkeykong.models;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.donkeykong.controllers.StartGame;
 
 public class IniciarMundo {
     //Box2D variaveis
@@ -19,14 +22,21 @@ public class IniciarMundo {
     private TiledMap mapa;
     private TiledMapRenderer renderizadorMapa;
 
+    //Bits de colisão
+    //https://www.iforce2d.net/b2dtut/collision-filtering
+    private static short MARIO = 0x0001;
+    private static short CHAO = 0x0002;
+    private static short ESCADA = 0x0004;
+    private static short CHECKPOINT_ESCADA = 0x0008;
+
     public IniciarMundo() {
         //Primeiro o mundo
-        mundo = new World(new Vector2(0, -20), true);
+        mundo = new World(new Vector2(0, -10), true);
         renderizadorBox2D = new Box2DDebugRenderer();
 
         //Depois o mapa
         mapa = new TmxMapLoader().load("cenarios/img.tmx");
-        renderizadorMapa = new OrthogonalTiledMapRenderer(mapa, 1 / 40f);
+        renderizadorMapa = new OrthogonalTiledMapRenderer(mapa, 1 / StartGame.CONVERSAO_METRO_PIXEL);
 
         //Renderizando objetos do mapa
         //Crio essas variaveis do lado de fora do for para não precisar declarar a cada passagem
@@ -42,13 +52,15 @@ public class IniciarMundo {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) /40f,
-                    (rect.getY() + rect.getHeight() / 2) /40f);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / StartGame.CONVERSAO_METRO_PIXEL,
+                    (rect.getY() + rect.getHeight() / 2) / StartGame.CONVERSAO_METRO_PIXEL);
             body = mundo.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 /40f, rect.getHeight() / 2 /40f);
+            shape.setAsBox(rect.getWidth() / 2 / StartGame.CONVERSAO_METRO_PIXEL, rect.getHeight() / 2 / StartGame.CONVERSAO_METRO_PIXEL);
             fdef.shape = shape;
             fdef.isSensor = true; //isso serve para o mario não colidir com a escada
+            fdef.filter.categoryBits = ESCADA;
+
             body.createFixture(fdef).setUserData("escada");
         }
 
@@ -59,14 +71,36 @@ public class IniciarMundo {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) /40f,
-                    (rect.getY() + rect.getHeight() / 2) /40f);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / StartGame.CONVERSAO_METRO_PIXEL,
+                    (rect.getY() + rect.getHeight() / 2) / StartGame.CONVERSAO_METRO_PIXEL);
 
             body = mundo.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 /40f, rect.getHeight() / 2 /40f) ;
+            shape.setAsBox(rect.getWidth() / 2 / StartGame.CONVERSAO_METRO_PIXEL, rect.getHeight() / 2 / StartGame.CONVERSAO_METRO_PIXEL);
             fdef.shape = shape;
             fdef.isSensor = false;
+            fdef.filter.categoryBits = CHAO;
+
+            body.createFixture(fdef).setUserData("chao");
+        }
+
+        for (MapObject object : mapa.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
+            //segundo geramos os blocos que representam o chão
+            //como tudo é retangular, fica facil representar no jogo
+
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / StartGame.CONVERSAO_METRO_PIXEL,
+                    (rect.getY() + rect.getHeight() / 2) / StartGame.CONVERSAO_METRO_PIXEL);
+
+            body = mundo.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 / StartGame.CONVERSAO_METRO_PIXEL, rect.getHeight() / 2 / StartGame.CONVERSAO_METRO_PIXEL);
+            fdef.shape = shape;
+            fdef.isSensor = false;
+            fdef.filter.categoryBits = CHECKPOINT_ESCADA;
+
             body.createFixture(fdef).setUserData("chao");
         }
 
