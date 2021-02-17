@@ -29,6 +29,7 @@ public class Inimigo extends Sprite{
 
     protected void criaCorpoFogo() {
         BodyDef bdef = new BodyDef();
+        //bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(90, 30);
         corpo = world.createBody(bdef);
 
