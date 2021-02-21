@@ -124,12 +124,12 @@ public class Mario extends Sprite {
                     facingRight = true;
                 }
                 break;
-            case 62:
-                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
-                    corpo.setLinearVelocity(new Vector2(0, 3f));
-                    estouNoChao = false;
-                }
-                break;
+//            case 62:
+//                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
+//                    corpo.setLinearVelocity(new Vector2(0, 3f));
+//                    estouNoChao = false;
+//                }
+//                break;
         }
     }
 

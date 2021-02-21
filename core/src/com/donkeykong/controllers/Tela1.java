@@ -41,7 +41,7 @@ public class Tela1 extends ScreenAdapter {
 
         deckDeVidas = new Deck();
         pontos = new Pontuacao();
-        mario = new Mario(20,70, mundo);
+        mario = new Mario(20, 70, mundo);
 
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
         renderizadorMapa.setView(game.cam);
@@ -68,12 +68,22 @@ public class Tela1 extends ScreenAdapter {
             game.batch.end();
         }//Fim da criação das imagens na tela
 
-        if(!pontos.atualizaPontosPeloTempo()){
+        if (!pontos.atualizaPontosPeloTempo()) {
             this.dispose();
         }
     }
 
     public void handleInput(float dt) {
+        if (mario.corpo.getLinearVelocity().y >= 0 || Mario.estouNaEscada) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+                mario.mover(dt, Input.Keys.RIGHT);
+
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                mario.mover(dt, Input.Keys.LEFT);
+                pontos.atualizarPontuacao(99);
+            }
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.UP))
             mario.mover(dt, Input.Keys.UP);
 
@@ -81,21 +91,12 @@ public class Tela1 extends ScreenAdapter {
             mario.mover(dt, Input.Keys.DOWN);
 
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            mario.mover(dt, Input.Keys.RIGHT);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            mario.mover(dt, Input.Keys.LEFT);
-            pontos.atualizarPontuacao(99);
-        }
-
-
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            mario.mover(dt, Input.Keys.SPACE);
+//        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+//            mario.mover(dt, Input.Keys.SPACE);
 
         //TESTE DO FUNCIONAMENTO DA PERCA DE VIDA SEM SER NO MÁRIO
-        if(Gdx.input.isKeyPressed(Input.Keys.X)){
-            if(!deckDeVidas.atualizarVida()){
+        if (Gdx.input.isKeyPressed(Input.Keys.X)) {
+            if (!deckDeVidas.atualizarVida()) {
                 //todo como o render atualiza muitas vezes por segundo, ele perde todas vidas de uma vez só
                 //por isso, quem for fazer a parada dos fogos, verificar quando o mario está sendo tocado para atualizar vida
             }
