@@ -27,6 +27,8 @@ public class Tela1 extends ScreenAdapter {
     StartGame game;
     Mario mario;
     Macaco donkeyKong;
+    Martelo martelo;
+    GuardaChuva guardaChuva;
     Deck deckDeVidas;
     Pontuacao pontos;
 
@@ -41,9 +43,12 @@ public class Tela1 extends ScreenAdapter {
 
         deckDeVidas = new Deck();
         pontos = new Pontuacao();
-        mario = new Mario(20, 70, mundo);
+        martelo = new Martelo(50, 340, mundo);
+        guardaChuva = new GuardaChuva(200, 300, mundo);
 
+        mario = new Mario(20, 70, mundo);
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
+
         renderizadorMapa.setView(game.cam);
     }
 
@@ -64,7 +69,10 @@ public class Tela1 extends ScreenAdapter {
             deckDeVidas.draw(game.batch);
             game.batch.draw(mario, mario.getX() - mario.getWidth() / 2f,
                     mario.getY() - mario.getHeight() / 2f);
-            pontos.draw(game.batch);
+            game.batch.draw(martelo, martelo.getX() - martelo.getWidth() / 2f,
+                    martelo.getY() - martelo.getHeight() / 2f);
+            game.batch.draw(guardaChuva, guardaChuva.getX() - guardaChuva.getWidth() / 2f,
+                    guardaChuva.getY() - guardaChuva.getHeight() / 2f);
             game.batch.end();
         }//Fim da criação das imagens na tela
 
@@ -74,7 +82,7 @@ public class Tela1 extends ScreenAdapter {
     }
 
     public void handleInput(float dt) {
-        if (mario.corpo.getLinearVelocity().y >= 0 || Mario.estouNaEscada) {
+        if (mario.corpo.getLinearVelocity().y >= 0) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
                 mario.mover(dt, Input.Keys.RIGHT);
 
@@ -90,9 +98,8 @@ public class Tela1 extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
             mario.mover(dt, Input.Keys.DOWN);
 
-
-//        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
-//            mario.mover(dt, Input.Keys.SPACE);
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+            mario.mover(dt, Input.Keys.SPACE);
 
         //TESTE DO FUNCIONAMENTO DA PERCA DE VIDA SEM SER NO MÁRIO
         if (Gdx.input.isKeyPressed(Input.Keys.X)) {

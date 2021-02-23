@@ -113,23 +113,26 @@ public class Mario extends Sprite {
                 break;
             case 21:
                 if((corpo.getPosition().x) >= 25/ 40f) {
-                    corpo.setLinearVelocity(new Vector2(-1, 0));
+                    corpo.setLinearVelocity(new Vector2(-1.5f, 0));
                     facingRight = false;
                 }
                 break;
             case 22:
                 System.out.println("posicao x"+ (corpo.getPosition().x));
                 if((corpo.getPosition().x) <= 672/40f) {
-                    corpo.setLinearVelocity(new Vector2(1, 0));
+                    corpo.setLinearVelocity(new Vector2(1.5f, 0));
                     facingRight = true;
                 }
                 break;
-//            case 62:
-//                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
-//                    corpo.setLinearVelocity(new Vector2(0, 3f));
-//                    estouNoChao = false;
-//                }
-//                break;
+            case 62:
+                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
+                    if(facingRight)
+                        corpo.setLinearVelocity(new Vector2(1.5f, 4f));
+                    else
+                        corpo.setLinearVelocity(new Vector2(-1.5f, 4f));
+                    estouNoChao = false;
+                }
+                break;
         }
     }
 
