@@ -125,7 +125,7 @@ public class Mario extends Sprite {
                 }
                 break;
             case 62:
-                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
+                if (corpo.getLinearVelocity().y == 0 && estouNoChao) {
                     if(facingRight)
                         corpo.setLinearVelocity(new Vector2(1.5f, 4f));
                     else
