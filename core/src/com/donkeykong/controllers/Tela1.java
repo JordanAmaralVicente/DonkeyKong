@@ -49,7 +49,6 @@ public class Tela1 extends ScreenAdapter {
         martelo = new Martelo(50, 340, mundo);
         guardaChuva = new GuardaChuva(200, 300, mundo);
 
-        mario = new Mario(20, 70, mundo);
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
 
         renderizadorMapa.setView(game.cam);
