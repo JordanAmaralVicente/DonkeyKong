@@ -43,7 +43,7 @@ public class Tela1 extends ScreenAdapter {
         deckDeVidas = new Deck();
         pontos = new Pontuacao();
         mario = new Mario(20,70, mundo);
-        fogo = new Inimigo(mundo);
+        fogo = new Inimigo(mundo,90,30);
 
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
         renderizadorMapa.setView(game.cam);
