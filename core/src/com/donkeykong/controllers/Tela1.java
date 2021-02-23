@@ -28,6 +28,8 @@ public class Tela1 extends ScreenAdapter {
     Mario mario;
     Inimigo fogo;
     Macaco donkeyKong;
+    Martelo martelo;
+    GuardaChuva guardaChuva;
     Deck deckDeVidas;
     Pontuacao pontos;
 
@@ -44,8 +46,12 @@ public class Tela1 extends ScreenAdapter {
         pontos = new Pontuacao();
         mario = new Mario(20,70, mundo);
         fogo = new Inimigo(mundo,90,30);
+        martelo = new Martelo(50, 340, mundo);
+        guardaChuva = new GuardaChuva(200, 300, mundo);
 
+        mario = new Mario(20, 70, mundo);
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
+
         renderizadorMapa.setView(game.cam);
     }
 
@@ -68,38 +74,41 @@ public class Tela1 extends ScreenAdapter {
             deckDeVidas.draw(game.batch);
             game.batch.draw(mario, mario.getX() - mario.getWidth() / 2f,
                     mario.getY() - mario.getHeight() / 2f);
-            pontos.draw(game.batch);
+            game.batch.draw(martelo, martelo.getX() - martelo.getWidth() / 2f,
+                    martelo.getY() - martelo.getHeight() / 2f);
+            game.batch.draw(guardaChuva, guardaChuva.getX() - guardaChuva.getWidth() / 2f,
+                    guardaChuva.getY() - guardaChuva.getHeight() / 2f);
             game.batch.end();
         }//Fim da criação das imagens na tela
 
-        if(!pontos.atualizaPontosPeloTempo()){
+        if (!pontos.atualizaPontosPeloTempo()) {
             this.dispose();
         }
     }
 
     public void handleInput(float dt) {
+        if (mario.corpo.getLinearVelocity().y >= 0) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+                mario.mover(dt, Input.Keys.RIGHT);
+
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                mario.mover(dt, Input.Keys.LEFT);
+                pontos.atualizarPontuacao(99);
+            }
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.UP))
             mario.mover(dt, Input.Keys.UP);
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
             mario.mover(dt, Input.Keys.DOWN);
 
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            mario.mover(dt, Input.Keys.RIGHT);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            mario.mover(dt, Input.Keys.LEFT);
-            pontos.atualizarPontuacao(99);
-        }
-
-
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             mario.mover(dt, Input.Keys.SPACE);
 
         //TESTE DO FUNCIONAMENTO DA PERCA DE VIDA SEM SER NO MÁRIO
-        if(Gdx.input.isKeyPressed(Input.Keys.X)){
-            if(!deckDeVidas.atualizarVida()){
+        if (Gdx.input.isKeyPressed(Input.Keys.X)) {
+            if (!deckDeVidas.atualizarVida()) {
                 //todo como o render atualiza muitas vezes por segundo, ele perde todas vidas de uma vez só
                 //por isso, quem for fazer a parada dos fogos, verificar quando o mario está sendo tocado para atualizar vida
             }

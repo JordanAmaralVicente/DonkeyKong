@@ -1,13 +1,14 @@
 com/donkeykong/models/Acoes.java
  com.donkeykong.models.Acoes
-com/donkeykong/models/IniciarMundo.java
- com.donkeykong.models.IniciarMundo
-com/donkeykong/models/Barril.java
- com.donkeykong.models.Barril
+com/donkeykong/models/Deck.java
+ com.donkeykong.models.Deck
 com/donkeykong/models/Estado.java
  com.donkeykong.models.Estado
-com/donkeykong/models/Imagem.java
- com.donkeykong.models.Imagem
+com/donkeykong/models/ContactListener.java
+ com.donkeykong.models.ContactListener
+com/donkeykong/models/Mario.java
+ com.donkeykong.models.Mario
+ com.donkeykong.models.Mario$1
 com/donkeykong/models/Escada.java
  com.donkeykong.models.Escada
 com/donkeykong/models/Posicao.java
@@ -18,6 +19,20 @@ com/donkeykong/models/Macaco.java
  com.donkeykong.models.Macaco
 com/donkeykong/models/Vida.java
  com.donkeykong.models.Vida
+com/donkeykong/models/Imagem.java
+ com.donkeykong.models.Imagem
+com/donkeykong/models/Barril.java
+ com.donkeykong.models.Barril
+com/donkeykong/models/Pontuacao.java
+ com.donkeykong.models.Pontuacao
+com/donkeykong/models/IniciarMundo.java
+ com.donkeykong.models.IniciarMundo
+com/donkeykong/controllers/StartGame.java
+ com.donkeykong.controllers.StartGame
+com/donkeykong/controllers/Tela1.java
+ com.donkeykong.controllers.Tela1
+com/donkeykong/models/Inimigo.java
+ com.donkeykong.models.Inimigo
 com/donkeykong/models/Pontuacao.java
  com.donkeykong.models.Pontuacao
 com/donkeykong/models/Deck.java
