@@ -43,7 +43,7 @@ public class Mario extends Sprite {
     public Body corpo;
 
     public Mario(int posicaoX, int posicaoY, World mundo) {
-        super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 70, 35);
+        super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 80, 42);
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.mundo = mundo;
@@ -102,24 +102,34 @@ public class Mario extends Sprite {
     public void mover(float dt, int direcao) {
         switch (direcao) {
             case 19:
-                if (Mario.estouNaEscada)
+                if (Mario.estouNaEscada){
                     corpo.setLinearVelocity(new Vector2(0, 1.5f));
+                }
                 break;
             case 20:
-                if (Mario.estouNaEscada)
+                if (Mario.estouNaEscada){
                     corpo.setLinearVelocity(new Vector2(0, -1));
+                }
                 break;
             case 21:
-                corpo.setLinearVelocity(new Vector2(-1, 0));
-                facingRight = false;
+                if((corpo.getPosition().x) >= 25/ 40f) {
+                    corpo.setLinearVelocity(new Vector2(-1.5f, 0));
+                    facingRight = false;
+                }
                 break;
             case 22:
-                corpo.setLinearVelocity(new Vector2(1, 0));
-                facingRight = true;
+                System.out.println("posicao x"+ (corpo.getPosition().x));
+                if((corpo.getPosition().x) <= 672/40f) {
+                    corpo.setLinearVelocity(new Vector2(1.5f, 0));
+                    facingRight = true;
+                }
                 break;
             case 62:
-                if (corpo.getLinearVelocity().y == 0 && !estouNaEscada && estouNoChao) {
-                    corpo.setLinearVelocity(new Vector2(0, 3f));
+                if (corpo.getLinearVelocity().y == 0 && estouNoChao) {
+                    if(facingRight)
+                        corpo.setLinearVelocity(new Vector2(1.5f, 4f));
+                    else
+                        corpo.setLinearVelocity(new Vector2(-1.5f, 4f));
                     estouNoChao = false;
                 }
                 break;
@@ -180,6 +190,14 @@ public class Mario extends Sprite {
         }
 
         setRegion(marioFrame);
+    }
+
+    public int getPosicaoX(){
+        return this.posicaoX;
+    }
+
+    public int getPosicaoY(){
+        return this.posicaoY;
     }
 
     public void diminuiVidas() {

@@ -25,7 +25,6 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
             Mario.estouNoChao = true;
         }
 
-
         System.out.println(Mario.estouNaEscada);
 
     }
@@ -39,7 +38,6 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
             System.out.println("Termina aqui!");
 
         System.out.println(Mario.estouNaEscada);
-
     }
 
     @Override
