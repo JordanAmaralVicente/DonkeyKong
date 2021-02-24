@@ -32,6 +32,7 @@ public class Tela1 extends ScreenAdapter {
     GuardaChuva guardaChuva;
     Deck deckDeVidas;
     Pontuacao pontos;
+    Princesa princesa;
 
     public Tela1(StartGame game) {
         this.game = game; //instancia do inicio do jogo (a camera está lá e a batch também)
@@ -48,6 +49,7 @@ public class Tela1 extends ScreenAdapter {
         fogo = new Inimigo(mundo,90,30);
         martelo = new Martelo(50, 340, mundo);
         guardaChuva = new GuardaChuva(200, 300, mundo);
+        princesa = new Princesa(300, 650, 32, 48);
 
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
 
@@ -70,6 +72,7 @@ public class Tela1 extends ScreenAdapter {
             game.batch.begin();
             fogo.draw(game.batch);
             donkeyKong.draw(game.batch, delta);
+            princesa.draw(game.batch);
             deckDeVidas.draw(game.batch);
             game.batch.draw(mario, mario.getX() - mario.getWidth() / 2f,
                     mario.getY() - mario.getHeight() / 2f);

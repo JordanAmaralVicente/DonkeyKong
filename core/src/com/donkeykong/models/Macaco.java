@@ -20,14 +20,6 @@ public class Macaco {
     private int posicaoX;
     private int posicaoY;
 
-    public void atualizaImagem(boolean direcao) {
-//        if (direcao) {
-//            this.spriteMacaco.setTexture(this.imageRight);
-//        }
-//        if (!direcao) {
-//            this.spriteMacaco.setTexture(this.imageLeft);
-//        }
-    }
 
     public Macaco(int posX, int posY) {
         this.posicaoX = posX;
