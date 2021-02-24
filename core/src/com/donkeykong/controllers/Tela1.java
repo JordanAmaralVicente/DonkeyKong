@@ -49,7 +49,7 @@ public class Tela1 extends ScreenAdapter {
         fogo = new Inimigo(mundo,90,30);
         martelo = new Martelo(50, 340, mundo);
         guardaChuva = new GuardaChuva(200, 300, mundo);
-        princesa = new Princesa(300, 650, 32, 48);
+        princesa = new Princesa(300, 650, 32, 48, mundo);
 
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
 
