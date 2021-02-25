@@ -80,10 +80,14 @@ public class Tela1 extends ScreenAdapter {
             game.batch.begin();
             ListIterator<Inimigo> fogoIterator = fogoList.listIterator();
             while (fogoIterator.hasNext()){
-                System.out.println("Entrei no while");
+                //System.out.println("Entrei no while");
                 Inimigo fogo = fogoIterator.next();
                 fogo.update(delta);
-                fogo.draw(game.batch);
+                //fogo.draw(game.batch);
+
+                game.batch.draw(fogo, fogo.getX() - fogo.getWidth() / 2f,
+                        fogo.getY() - fogo.getHeight() / 2f);
+
             }
             donkeyKong.draw(game.batch, delta);
             princesa.draw(game.batch);
@@ -107,17 +111,17 @@ public class Tela1 extends ScreenAdapter {
         if(spawnTimer >= timeBetweenEnemySpawn) {
             switch (aux){
                 case 1:
-                    fogoList.add(new Inimigo(mundo, 90, 160, 50, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 160, 2, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
                 break;
 
                 case 2:
-                    fogoList.add(new Inimigo(mundo, 90, 285, 50, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 285, 2, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
                 break;
 
                 case 3:
-                    fogoList.add(new Inimigo(mundo, 90, 410, 50, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 410, 2, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
             }
             aux++;

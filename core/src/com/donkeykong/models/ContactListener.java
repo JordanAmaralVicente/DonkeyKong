@@ -14,6 +14,9 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
 
     @Override
     public void beginContact(Contact contact) {
+        short firstBit = contact.getFixtureA().getFilterData().categoryBits;
+        short secondBit = contact.getFixtureB().getFilterData().categoryBits;
+
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
@@ -31,6 +34,9 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
 
     @Override
     public void endContact(Contact contact) {
+        short firstBit = contact.getFixtureA().getFilterData().categoryBits;
+        short secondBit = contact.getFixtureB().getFilterData().categoryBits;
+
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
@@ -42,7 +48,16 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
+        short firstBit = contact.getFixtureA().getFilterData().categoryBits;
+        short secondBit = contact.getFixtureB().getFilterData().categoryBits;
 
+        System.out.println(firstBit);
+        System.out.println(secondBit);
+
+        if ((firstBit | secondBit) == (64 | 2 | 4)) {
+            System.out.println("Contact " + firstBit + " " + secondBit);
+            contact.setEnabled(false);
+        }
     }
 
     @Override
