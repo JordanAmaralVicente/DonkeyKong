@@ -24,18 +24,20 @@ public class Inimigo extends Sprite{
 
     private static short FOGO = 64;
 
-    public Inimigo(World world, int posX, int posY, int velX, int velY ) {
+    public Inimigo(World world, int posX, int posY, float velX, float velY ) {
         this.world = world;
         this.posX = posX;
         this.posY = posY;
-        criaCorpoFogo();
+
         this.imageLeft = new Texture(Gdx.files.internal("personagens/fogo/fogo_0.png"));
         this.imageRight = new Texture(Gdx.files.internal("personagens/fogo/fogo_1.png"));
         this.spriteFogo = new Sprite(this.imageRight);
         //setBounds(0, 0, 30, 30);
 
-        loadTextures();
+
         velocidade = new Vector2(velX,velY);
+        criaCorpoFogo();
+        loadTextures();
     }
 
     protected void criaCorpoFogo() {
@@ -46,32 +48,34 @@ public class Inimigo extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
+        shape.setRadius(6 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.shape = shape;
+        fdef.density = 1;
         fdef.filter.categoryBits = FOGO;
         corpo.createFixture(fdef).setUserData("fogo");
     }
 
     public void update(float delta) {
         stateTime += delta;
-        corpo.setLinearVelocity(velocidade);
-        //setPosition(corpo.getPosition().x - getWidth() / 2, corpo.getPosition().y - getHeight() / 2);
 
         setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
                 (corpo.getPosition().y) * StartGame.CONVERSAO_METRO_PIXEL);
+
+        corpo.setLinearVelocity(velocidade);
+        //setPosition(corpo.getPosition().x - getWidth() / 2, corpo.getPosition().y - getHeight() / 2);
 
         if (corpo.getLinearVelocity().x > 0 && corpo.getLinearVelocity().y == 0)
             fogoFrame = moverDireitaAnimation.getKeyFrame(stateTime, true);
         else if (corpo.getLinearVelocity().x < 0 && corpo.getLinearVelocity().y == 0)
             fogoFrame = moverEsquerdaAnimation.getKeyFrame(stateTime, true);
 
-        if(corpo.getPosition().x >= 400 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x > 0){
+        if (corpo.getPosition().x >= 400 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x > 0) {
             mudaDirecao();
-        } else if (corpo.getPosition().x <= 0 && velocidade.x < 0){
+        } else if (corpo.getPosition().x <= 0 && velocidade.x < 0) {
             mudaDirecao();
         }
 
-        if(corpo.getPosition().y / StartGame.CONVERSAO_METRO_PIXEL != posY / StartGame.CONVERSAO_METRO_PIXEL)
+        if (corpo.getPosition().y / StartGame.CONVERSAO_METRO_PIXEL != posY / StartGame.CONVERSAO_METRO_PIXEL)
             corpo.setTransform(corpo.getPosition().x, posY / StartGame.CONVERSAO_METRO_PIXEL, 0);
 
         setRegion(fogoFrame);

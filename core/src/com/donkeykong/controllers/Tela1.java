@@ -53,12 +53,12 @@ public class Tela1 extends ScreenAdapter {
 
         deckDeVidas = new Deck();
         pontos = new Pontuacao();
-        mario = new Mario(20,70, mundo);
+        mario = new Mario(20, 70, mundo);
         martelo = new Martelo(50, 340, mundo);
         guardaChuva = new GuardaChuva(200, 300, mundo);
         princesa = new Princesa(300, 650, 32, 48, mundo);
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
-        fogoList= new LinkedList<>();
+        fogoList = new LinkedList<>();
 
         renderizadorMapa.setView(game.cam);
     }
@@ -67,27 +67,26 @@ public class Tela1 extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        spawnEnemy(delta);
         mundo.step(1 / 60f, 6, 2);
         renderizadorMapa.render();
         handleInput(delta);
         mario.update(delta);
-        spawnEnemy(delta);
+
         b2dr.render(mundo, game.cam.combined);
         game.cam.update();
 
 
         {//Início da criação das imagens na tela
             game.batch.begin();
-            ListIterator<Inimigo> fogoIterator = fogoList.listIterator();
-            while (fogoIterator.hasNext()){
-                //System.out.println("Entrei no while");
-                Inimigo fogo = fogoIterator.next();
+            for (Inimigo fogo : fogoList) {
+//                //System.out.println("Entrei no while");
                 fogo.update(delta);
-                //fogo.draw(game.batch);
-
+//               //fogo.draw(game.batch);
+//
                 game.batch.draw(fogo, fogo.getX() - fogo.getWidth() / 2f,
                         fogo.getY() - fogo.getHeight() / 2f);
-
+//
             }
             donkeyKong.draw(game.batch, delta);
             princesa.draw(game.batch);
@@ -106,22 +105,22 @@ public class Tela1 extends ScreenAdapter {
         }
     }
 
-    private void spawnEnemy(float delta){
+    private void spawnEnemy(float delta) {
         spawnTimer += delta;
-        if(spawnTimer >= timeBetweenEnemySpawn) {
-            switch (aux){
+        if (spawnTimer >= timeBetweenEnemySpawn) {
+            switch (aux) {
                 case 1:
-                    fogoList.add(new Inimigo(mundo, 90, 160, 2, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 160, 2f, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
-                break;
+                    break;
 
                 case 2:
-                    fogoList.add(new Inimigo(mundo, 90, 285, 2, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 285, 2f, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
-                break;
+                    break;
 
                 case 3:
-                    fogoList.add(new Inimigo(mundo, 90, 410, 2, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 410, 2f, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
             }
             aux++;

@@ -94,6 +94,7 @@ public class Mario extends Sprite {
         //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
         //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
+        fdef.filter.categoryBits = 1;
         fdef.shape = shape;
 
         corpo.createFixture(fdef).setUserData("mario");
@@ -118,7 +119,6 @@ public class Mario extends Sprite {
                 }
                 break;
             case 22:
-                System.out.println("posicao x"+ (corpo.getPosition().x));
                 if((corpo.getPosition().x) <= 672/40f) {
                     corpo.setLinearVelocity(new Vector2(1.5f, 0));
                     facingRight = true;
