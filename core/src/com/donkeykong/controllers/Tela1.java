@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.donkeykong.models.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class Tela1 extends ScreenAdapter {
     //Box2D variaveis
@@ -26,13 +28,19 @@ public class Tela1 extends ScreenAdapter {
     //Game models variables
     StartGame game;
     Mario mario;
-    Inimigo fogo;
+    LinkedList<Inimigo> fogoList;
     Macaco donkeyKong;
     Martelo martelo;
     GuardaChuva guardaChuva;
     Deck deckDeVidas;
     Pontuacao pontos;
     Princesa princesa;
+
+    //Timing variables
+    float timeBetweenEnemySpawn = 2f;
+    float spawnTimer = 0;
+
+    int aux = 1;
 
     public Tela1(StartGame game) {
         this.game = game; //instancia do inicio do jogo (a camera está lá e a batch também)
@@ -46,12 +54,11 @@ public class Tela1 extends ScreenAdapter {
         deckDeVidas = new Deck();
         pontos = new Pontuacao();
         mario = new Mario(20,70, mundo);
-        fogo = new Inimigo(mundo,90,30);
         martelo = new Martelo(50, 340, mundo);
         guardaChuva = new GuardaChuva(200, 300, mundo);
         princesa = new Princesa(300, 650, 32, 48, mundo);
-
         donkeyKong = new Macaco(300, 495, 100, 100); //DK
+        fogoList= new LinkedList<>();
 
         renderizadorMapa.setView(game.cam);
     }
@@ -64,13 +71,20 @@ public class Tela1 extends ScreenAdapter {
         renderizadorMapa.render();
         handleInput(delta);
         mario.update(delta);
-        fogo.update(delta);
+        spawnEnemy(delta);
         b2dr.render(mundo, game.cam.combined);
         game.cam.update();
 
+
         {//Início da criação das imagens na tela
             game.batch.begin();
-            fogo.draw(game.batch);
+            ListIterator<Inimigo> fogoIterator = fogoList.listIterator();
+            while (fogoIterator.hasNext()){
+                System.out.println("Entrei no while");
+                Inimigo fogo = fogoIterator.next();
+                fogo.update(delta);
+                fogo.draw(game.batch);
+            }
             donkeyKong.draw(game.batch, delta);
             princesa.draw(game.batch);
             deckDeVidas.draw(game.batch);
@@ -85,6 +99,28 @@ public class Tela1 extends ScreenAdapter {
 
         if (!pontos.atualizaPontosPeloTempo()) {
             this.dispose();
+        }
+    }
+
+    private void spawnEnemy(float delta){
+        spawnTimer += delta;
+        if(spawnTimer >= timeBetweenEnemySpawn) {
+            switch (aux){
+                case 1:
+                    fogoList.add(new Inimigo(mundo, 90, 160, 50, 0));
+                    spawnTimer -= timeBetweenEnemySpawn;
+                break;
+
+                case 2:
+                    fogoList.add(new Inimigo(mundo, 90, 285, 50, 0));
+                    spawnTimer -= timeBetweenEnemySpawn;
+                break;
+
+                case 3:
+                    fogoList.add(new Inimigo(mundo, 90, 410, 50, 0));
+                    spawnTimer -= timeBetweenEnemySpawn;
+            }
+            aux++;
         }
     }
 

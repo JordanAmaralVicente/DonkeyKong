@@ -21,7 +21,7 @@ public class Inimigo extends Sprite{
     private static final float MOVER_FRAME_DURATION = 0.3f;
     public Vector2 velocidade;
 
-    public Inimigo(World world, int posX, int posY) {
+    public Inimigo(World world, int posX, int posY, int velX, int velY ) {
         this.world = world;
         this.posX = posX;
         this.posY = posY;
@@ -31,7 +31,7 @@ public class Inimigo extends Sprite{
         this.spriteFogo = new Sprite(this.imageRight);
         setBounds(0, 0, 30, 30);
         loadTextures();
-        velocidade = new Vector2(30,0);
+        velocidade = new Vector2(velX,velY);
     }
 
     protected void criaCorpoFogo() {
