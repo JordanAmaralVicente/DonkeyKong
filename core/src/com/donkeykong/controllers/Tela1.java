@@ -110,17 +110,23 @@ public class Tela1 extends ScreenAdapter {
         if (spawnTimer >= timeBetweenEnemySpawn) {
             switch (aux) {
                 case 1:
-                    fogoList.add(new Inimigo(mundo, 90, 160, 2f, 0));
+                    fogoList.add(new Inimigo(mundo, 20, 160, 2f, 0));
+                    fogoList.add(new Inimigo(mundo, 650, 160, -2f, 0));
+                    fogoList.add(new Inimigo(mundo, 325, 160, 2f, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
                     break;
 
                 case 2:
-                    fogoList.add(new Inimigo(mundo, 90, 285, 2f, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 285, 2.5f, 0));
+                    fogoList.add(new Inimigo(mundo, 625, 285, -2.5f, 0));
+                    fogoList.add(new Inimigo(mundo, 310, 285, -2.5f, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
                     break;
 
                 case 3:
-                    fogoList.add(new Inimigo(mundo, 90, 410, 2f, 0));
+                    fogoList.add(new Inimigo(mundo, 90, 410, 3f, 0));
+                    fogoList.add(new Inimigo(mundo, 600, 410, -3f, 0));
+                    fogoList.add(new Inimigo(mundo, 300, 410, 3f, 0));
                     spawnTimer -= timeBetweenEnemySpawn;
             }
             aux++;
@@ -154,8 +160,6 @@ public class Tela1 extends ScreenAdapter {
                 //por isso, quem for fazer a parada dos fogos, verificar quando o mario está sendo tocado para atualizar vida
             }
         }
-
     }
-
 }
 

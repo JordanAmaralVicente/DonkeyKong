@@ -4,6 +4,9 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
     World world;
+    Deck deckDeVidas;
+    Vida vida;
+    private final List<TransformacaoMario> observadores = new ArrayList<>();
 
     public ContactListener(World world) {
         this.world = world;
@@ -27,6 +30,22 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
             }
         }
 
+        //mario e o free fire
+        if(firstBit == 64 || secondBit == 64){
+            if(firstBit == 1 || secondBit == 1){
+                deckDeVidas.atualizarVida();
+                System.out.println("Leroi");
+            }
+        }
+
+        //mario e a poppy
+        if(firstBit == 32 || secondBit == 32){
+            if(firstBit == 1 || secondBit == 1){
+                System.out.println("AI PAPEI PEGUEI UM MARTELO");
+            }
+        }
+
+        //mario e o chão
         if(firstBit == 2 || secondBit == 2){
             if(firstBit == 1 || secondBit == 1){
                 Mario.estouNaEscada = false;
