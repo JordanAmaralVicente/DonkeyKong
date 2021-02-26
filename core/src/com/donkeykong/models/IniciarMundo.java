@@ -29,7 +29,11 @@ public class IniciarMundo {
     private static short ESCADA = 0x0004;
     private static short CHECKPOINT_ESCADA = 0x0008;
 
-    public IniciarMundo() {
+    private Deck deckDeVidas;
+
+    public IniciarMundo(Deck deckDeVidas) {
+        this.deckDeVidas = deckDeVidas;
+
         //Primeiro o mundo
         mundo = new World(new Vector2(0, -10), true);
         renderizadorBox2D = new Box2DDebugRenderer();
@@ -107,7 +111,7 @@ public class IniciarMundo {
         //adiciono um novo listener para o mundo, que servira para informar em que objeto o mario está colidindo
         //servirá principalmente para subir as escadas
         //como a função listener faz tudo internamente, não é necessário gerar uma variavel para a interface, basta criar a instancia
-        mundo.setContactListener(new ContactListener(mundo));
+        mundo.setContactListener(new ContactListener(mundo, deckDeVidas));
     }
 
     public Box2DDebugRenderer getRenderizadorBox2D() {

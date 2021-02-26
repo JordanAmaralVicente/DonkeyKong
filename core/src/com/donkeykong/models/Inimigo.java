@@ -21,10 +21,12 @@ public class Inimigo extends Sprite{
     private int posX, posY;
     private static final float MOVER_FRAME_DURATION = 0.3f;
     public Vector2 velocidade;
+    public boolean facingRight = true;
 
     private static short FOGO = 64;
 
     public Inimigo(World world, int posX, int posY, float velX, float velY ) {
+        super(new Texture(Gdx.files.internal("personagens/fogo/fogo_0.png")), 30 , 30);
         this.world = world;
         this.posX = posX;
         this.posY = posY;
@@ -48,7 +50,7 @@ public class Inimigo extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / StartGame.CONVERSAO_METRO_PIXEL);
+        shape.setRadius( 6/ StartGame.CONVERSAO_METRO_PIXEL);
         fdef.shape = shape;
         fdef.density = 1;
         fdef.filter.categoryBits = FOGO;
@@ -69,14 +71,27 @@ public class Inimigo extends Sprite{
         else if (corpo.getLinearVelocity().x < 0 && corpo.getLinearVelocity().y == 0)
             fogoFrame = moverEsquerdaAnimation.getKeyFrame(stateTime, true);
 
-        if (corpo.getPosition().x >= 400 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x > 0) {
+        if (corpo.getPosition().x >= 650 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x > 0 && corpo.getPosition().y <= 160 / StartGame.CONVERSAO_METRO_PIXEL ){
             mudaDirecao();
-        } else if (corpo.getPosition().x <= 0 && velocidade.x < 0) {
+        } else if (corpo.getPosition().x < 15 /StartGame.CONVERSAO_METRO_PIXEL && velocidade.x < 0  && corpo.getPosition().y <= 160 / StartGame.CONVERSAO_METRO_PIXEL) {
+            mudaDirecao();
+        } else if(corpo.getPosition().x >= 625 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x > 0 && corpo.getPosition().y <= 285 / StartGame.CONVERSAO_METRO_PIXEL && corpo.getPosition().y > 200 / StartGame.CONVERSAO_METRO_PIXEL){
+            mudaDirecao();
+        }else if(corpo.getPosition().x <= 45 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x < 0 && corpo.getPosition().y <= 285 / StartGame.CONVERSAO_METRO_PIXEL && corpo.getPosition().y > 200 / StartGame.CONVERSAO_METRO_PIXEL ){
+            mudaDirecao();
+        }else if(corpo.getPosition().x >= 600 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x > 0 && corpo.getPosition().y <= 410 / StartGame.CONVERSAO_METRO_PIXEL && corpo.getPosition().y > 300 / StartGame.CONVERSAO_METRO_PIXEL){
+            mudaDirecao();
+        }else if(corpo.getPosition().x <= 65 / StartGame.CONVERSAO_METRO_PIXEL && velocidade.x < 0 && corpo.getPosition().y <= 410 / StartGame.CONVERSAO_METRO_PIXEL && corpo.getPosition().y > 300 / StartGame.CONVERSAO_METRO_PIXEL ){
             mudaDirecao();
         }
 
         if (corpo.getPosition().y / StartGame.CONVERSAO_METRO_PIXEL != posY / StartGame.CONVERSAO_METRO_PIXEL)
             corpo.setTransform(corpo.getPosition().x, posY / StartGame.CONVERSAO_METRO_PIXEL, 0);
+
+        if(corpo.getLinearVelocity().x > 0)
+            facingRight = true;
+        else
+            facingRight = false;
 
         setRegion(fogoFrame);
     }
@@ -103,3 +118,5 @@ public class Inimigo extends Sprite{
         velocidade.x = -velocidade.x;
     }
 }
+
+

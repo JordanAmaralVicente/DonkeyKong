@@ -45,20 +45,21 @@ public class Tela1 extends ScreenAdapter {
     public Tela1(StartGame game) {
         this.game = game; //instancia do inicio do jogo (a camera está lá e a batch também)
 
+        deckDeVidas = new Deck();
+        pontos = new Pontuacao();
+        donkeyKong = new Macaco(300, 495, 100, 100); //DK
+
         //Iniciando o mundo e coletando as variaveis que serão utilizadas
-        iniciarMundo = new IniciarMundo();
+        iniciarMundo = new IniciarMundo(deckDeVidas);
         mundo = iniciarMundo.getMundo();
         b2dr = iniciarMundo.getRenderizadorBox2D();
         renderizadorMapa = iniciarMundo.getRenderizadorMapa();
 
-        deckDeVidas = new Deck();
-        pontos = new Pontuacao();
-        mario = new Mario(20, 70, mundo);
+        mario = new Mario(350, 30, mundo);
+        fogoList = new LinkedList<>();
         martelo = new Martelo(50, 340, mundo);
         guardaChuva = new GuardaChuva(200, 300, mundo);
-        princesa = new Princesa(300, 650, 32, 48, mundo);
-        donkeyKong = new Macaco(300, 495, 100, 100); //DK
-        fogoList = new LinkedList<>();
+        princesa = new Princesa(300, 650, 42, 42, mundo);
 
         renderizadorMapa.setView(game.cam);
     }

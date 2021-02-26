@@ -2,14 +2,18 @@ package com.donkeykong.models;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
     World world;
     Deck deckDeVidas;
     Vida vida;
     private final List<TransformacaoMario> observadores = new ArrayList<>();
 
-    public ContactListener(World world) {
+    public ContactListener(World world, Deck deckDeVidas) {
         this.world = world;
+        this.deckDeVidas = deckDeVidas;
     }
 
     //CHAO == 2
@@ -23,6 +27,7 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
 //        System.out.println(firstBit);
 //        System.out.println(secondBit);
 
+        //mario e a escada
         if(firstBit == 4 || secondBit == 4){
             if(firstBit == 1 || secondBit == 1){
                 Mario.estouNaEscada = true;
@@ -54,7 +59,6 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
             }
         }
 
-
 //        System.out.println(Mario.estouNaEscada);
 
     }
@@ -79,9 +83,18 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
 //        System.out.println(firstBit);
 //        System.out.println(secondBit);
 
-        if ((firstBit | secondBit) == (64 | 2 | 4)) {
-            System.out.println("Contact " + firstBit + " " + secondBit);
+//        if ((firstBit | secondBit) == (64 | 2 | 4)) {
+//            System.out.println("Contact " + firstBit + " " + secondBit);
+//            contact.setEnabled(false);
+//        }
+
+        if(firstBit == secondBit)
             contact.setEnabled(false);
+
+        if(firstBit == 64 || secondBit == 64){
+            if(firstBit == 1 || secondBit == 1){
+               contact.setEnabled(false);
+            }
         }
     }
 

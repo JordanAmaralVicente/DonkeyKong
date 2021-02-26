@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.donkeykong.controllers.StartGame;
+import jdk.javadoc.internal.tool.Start;
 
 public class Mario extends Sprite {
     //Constantes
@@ -100,33 +101,56 @@ public class Mario extends Sprite {
         corpo.createFixture(fdef).setUserData("mario");
     }
 
+    public void criaCorpoMarioMartelo() {
+        Vector2 pos = corpo.getPosition();
+        mundo.destroyBody(corpo);
+
+        //bdef.position.set(posicaoX / StartGame.CONVERSAO_METRO_PIXEL, posicaoY / StartGame.CONVERSAO_METRO_PIXEL);
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.position.set(pos.x / StartGame.CONVERSAO_METRO_PIXEL, pos.y / StartGame.CONVERSAO_METRO_PIXEL);
+        corpo = mundo.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        //PolygonShape shape = new PolygonShape();
+        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
+        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
+        shape.setRadius(14 / StartGame.CONVERSAO_METRO_PIXEL);
+        fdef.filter.categoryBits = 128;
+        fdef.shape = shape;
+
+        corpo.createFixture(fdef).setUserData("marioComMartelo");
+    }
+
+
     public void mover(float dt, int direcao) {
         switch (direcao) {
             case 19:
-                if (Mario.estouNaEscada){
+                if (Mario.estouNaEscada) {
                     corpo.setLinearVelocity(new Vector2(0, 1.5f));
                 }
                 break;
             case 20:
-                if (Mario.estouNaEscada){
+                if (Mario.estouNaEscada) {
                     corpo.setLinearVelocity(new Vector2(0, -1));
                 }
                 break;
             case 21:
-                if((corpo.getPosition().x) >= 25/ 40f) {
+                if ((corpo.getPosition().x) >= 25 / 40f) {
                     corpo.setLinearVelocity(new Vector2(-1.5f, 0));
                     facingRight = false;
                 }
                 break;
             case 22:
-                if((corpo.getPosition().x) <= 672/40f) {
+                if ((corpo.getPosition().x) <= 672 / 40f) {
                     corpo.setLinearVelocity(new Vector2(1.5f, 0));
                     facingRight = true;
                 }
                 break;
             case 62:
                 if (corpo.getLinearVelocity().y == 0 && estouNoChao) {
-                    if(facingRight)
+                    if (facingRight)
                         corpo.setLinearVelocity(new Vector2(1.5f, 4f));
                     else
                         corpo.setLinearVelocity(new Vector2(-1.5f, 4f));
@@ -192,11 +216,11 @@ public class Mario extends Sprite {
         setRegion(marioFrame);
     }
 
-    public int getPosicaoX(){
+    public int getPosicaoX() {
         return this.posicaoX;
     }
 
-    public int getPosicaoY(){
+    public int getPosicaoY() {
         return this.posicaoY;
     }
 
