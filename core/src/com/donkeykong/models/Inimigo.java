@@ -22,6 +22,7 @@ public class Inimigo extends Sprite{
     private static final float MOVER_FRAME_DURATION = 0.3f;
     public Vector2 velocidade;
     public boolean facingRight = true;
+    public boolean visible = true, vivo = true;
 
     private static short FOGO = 64;
 
@@ -54,7 +55,8 @@ public class Inimigo extends Sprite{
         fdef.shape = shape;
         fdef.density = 1;
         fdef.filter.categoryBits = FOGO;
-        corpo.createFixture(fdef).setUserData("fogo");
+        corpo.setUserData("fogo");
+        corpo.createFixture(fdef);
     }
 
     public void update(float delta) {
@@ -94,6 +96,12 @@ public class Inimigo extends Sprite{
             facingRight = false;
 
         setRegion(fogoFrame);
+
+        if(!verificaVida()){
+            world.destroyBody(corpo);
+            visible = false;
+        }
+
     }
 
     private void loadTextures() {
@@ -116,6 +124,16 @@ public class Inimigo extends Sprite{
 
     public void mudaDirecao(){
         velocidade.x = -velocidade.x;
+    }
+
+    public boolean verificaVida(){
+        if(corpo.getUserData().equals("destruir")){
+            visible = false;
+            return false;
+        }
+
+        return true;
+
     }
 }
 

@@ -21,7 +21,7 @@ public class Mario extends Sprite {
     private Estado estadoAtual;
     private int contagemDeVidas;
     private boolean facingRight = true;
-    private boolean estaComOMartelo;
+    public static boolean estaComOMartelo;
     public static boolean estouNaEscada = false, estouNoChao = true;
     private int vida;
 
@@ -36,12 +36,25 @@ public class Mario extends Sprite {
     //Animacoes
     private Animation<TextureRegion> andandoEsquerdaAnimacao;
     private Animation<TextureRegion> andandoDireitaAnimacao;
+    private Animation<TextureRegion> marioMarteloDireita;
+    private Animation<TextureRegion> marioMarteloEsquerda;
     float stateTime = 0f;
 
     //Componentes do personagem
     private Sound som;
     private int posicaoX, posicaoY;
     public Body corpo;
+
+    private float timeSeconds = 0f;
+    private float period = 1f;
+
+    public boolean transformado = false;
+    public boolean morri = false;
+
+    private Sound somAndando;
+    private Sound somPulando;
+    private Sound somMorrendo;
+
 
     public Mario(int posicaoX, int posicaoY, World mundo) {
         super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 80, 42);
@@ -50,15 +63,22 @@ public class Mario extends Sprite {
         this.mundo = mundo;
         this.contagemDeVidas = 3;
 
+        somAndando = Gdx.audio.newSound(Gdx.files.internal("sons/walk.wav"));
+        somPulando = Gdx.audio.newSound(Gdx.files.internal("sons/jump.wav"));
+        somMorrendo = Gdx.audio.newSound(Gdx.files.internal("sons/die.wav"));
+
         estadoAtual = Estado.PARADO_DIREITA;
         criaCorpoMario();
         loadTextures();
+
+        somAndando.loop();
     }
 
     //https://github.com/libgdx/libgdx/wiki/2D-Animation
     //https://www.javacodegeeks.com/2013/02/android-game-development-with-libgdx-animation-part-2.html
     private void loadTextures() {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("personagens/marioAnimacao/marioAnimacao.txt"));
+        TextureAtlas atlasMartelo = new TextureAtlas(Gdx.files.internal("personagens/marioMarteloAnimacao/marioMarteloAnimacao.txt"));
 
         marioParadoEsquerda = atlas.findRegion("Mario-01");
         marioParadoDireita = new TextureRegion(marioParadoEsquerda);
@@ -80,6 +100,19 @@ public class Mario extends Sprite {
             andandoDireitaFrames[i].flip(true, false);
         }
         andandoDireitaAnimacao = new Animation(RUNNING_FRAME_DURATION, andandoDireitaFrames);
+
+        TextureRegion[] marteloEsquerdaFrames = new TextureRegion[2];
+        for (int i = 0; i < 2; i++) {
+            marteloEsquerdaFrames[i] = atlasMartelo.findRegion("marioMartelo-0" + (i + 1));
+        }
+        marioMarteloEsquerda = new Animation<>(RUNNING_FRAME_DURATION, marteloEsquerdaFrames);
+
+        TextureRegion[] marteloDireitaFrames = new TextureRegion[2];
+        for (int i = 0; i < 2; i++) {
+            marteloDireitaFrames[i] = new TextureRegion(marteloEsquerdaFrames[i]);
+            marteloDireitaFrames[i].flip(true, false);
+        }
+        marioMarteloDireita = new Animation<>(RUNNING_FRAME_DURATION, marteloDireitaFrames);
     }
 
     //https://gamedev.stackexchange.com/questions/119143/how-to-fix-the-sprite-that-is-not-drawn-on-the-same-position-as-its-body-after-i
@@ -94,7 +127,7 @@ public class Mario extends Sprite {
         //PolygonShape shape = new PolygonShape();
         //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
         //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
-        shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
+        shape.setRadius(6 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.filter.categoryBits = 1;
         fdef.shape = shape;
 
@@ -108,7 +141,7 @@ public class Mario extends Sprite {
         //bdef.position.set(posicaoX / StartGame.CONVERSAO_METRO_PIXEL, posicaoY / StartGame.CONVERSAO_METRO_PIXEL);
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(pos.x / StartGame.CONVERSAO_METRO_PIXEL, pos.y / StartGame.CONVERSAO_METRO_PIXEL);
+        bdef.position.set(pos);
         corpo = mundo.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
@@ -116,11 +149,33 @@ public class Mario extends Sprite {
         //PolygonShape shape = new PolygonShape();
         //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
         //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
-        shape.setRadius(14 / StartGame.CONVERSAO_METRO_PIXEL);
-        fdef.filter.categoryBits = 128;
+        shape.setRadius(10 / StartGame.CONVERSAO_METRO_PIXEL);
+        fdef.filter.categoryBits = 1;
         fdef.shape = shape;
 
         corpo.createFixture(fdef).setUserData("marioComMartelo");
+    }
+
+    public void reCriaCorpoMario() {
+        Vector2 pos = corpo.getPosition();
+        mundo.destroyBody(corpo);
+
+        //bdef.position.set(posicaoX / StartGame.CONVERSAO_METRO_PIXEL, posicaoY / StartGame.CONVERSAO_METRO_PIXEL);
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.position.set(pos);
+        corpo = mundo.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        //PolygonShape shape = new PolygonShape();
+        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
+        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
+        shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
+        fdef.filter.categoryBits = 1;
+        fdef.shape = shape;
+
+        corpo.createFixture(fdef).setUserData("mario");
     }
 
 
@@ -133,7 +188,7 @@ public class Mario extends Sprite {
                 break;
             case 20:
                 if (Mario.estouNaEscada) {
-                    corpo.setLinearVelocity(new Vector2(0, -1));
+                    corpo.setLinearVelocity(new Vector2(0, -1.5f));
                 }
                 break;
             case 21:
@@ -155,6 +210,8 @@ public class Mario extends Sprite {
                     else
                         corpo.setLinearVelocity(new Vector2(-1.5f, 4f));
                     estouNoChao = false;
+
+                    somPulando.play();
                 }
                 break;
         }
@@ -162,6 +219,23 @@ public class Mario extends Sprite {
 
     public void update(float delta) {
         stateTime += delta;
+
+        if (estaComOMartelo) {
+            criaCorpoMarioMartelo();
+            estaComOMartelo = false;
+            transformado = true;
+        }
+
+        if(morri){
+            corpo.setTransform(posicaoX / StartGame.CONVERSAO_METRO_PIXEL, posicaoY / StartGame.CONVERSAO_METRO_PIXEL, 0);
+            morri = false;
+        }
+
+        if(corpo.getLinearVelocity().x > 0 || corpo.getLinearVelocity().x < 0){
+            somAndando.resume();
+        } else {
+            somAndando.pause();
+        }
 
         setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
                 (corpo.getPosition().y) * StartGame.CONVERSAO_METRO_PIXEL);
@@ -188,6 +262,15 @@ public class Mario extends Sprite {
         if (corpo.getLinearVelocity().y != 0 && Mario.estouNaEscada)
             estadoAtual = Estado.ESCALANDO;
 
+        if(transformado){
+            timeSeconds += delta;
+            estadoAtual = facingRight ? Estado.MARTELO_DIREITA : Estado.MARTELO_ESQUERDA;
+            if(timeSeconds > 10){
+                reCriaCorpoMario();
+                transformado = false;
+            }
+        }
+
         //Muda a sprite do MARIO
         switch (estadoAtual) {
             case PARADO_DIREITA:
@@ -211,6 +294,12 @@ public class Mario extends Sprite {
             case PULANDO_DIREITA:
                 marioFrame = marioPulandoDireita;
                 break;
+            case MARTELO_ESQUERDA:
+                marioFrame = marioMarteloEsquerda.getKeyFrame(stateTime, true);
+                break;
+            case MARTELO_DIREITA:
+                marioFrame = marioMarteloDireita.getKeyFrame(stateTime, true);
+                break;
         }
 
         setRegion(marioFrame);
@@ -232,4 +321,15 @@ public class Mario extends Sprite {
         this.contagemDeVidas = 3;
     }
 
+    public void verificaColisao(Body body){
+        short x = body.getFixtureList().first().getFilterData().categoryBits;
+        if(transformado){
+            body.setUserData("destruir");
+        }
+        else{
+            morri = true;
+            somMorrendo.play();
+        }
+
+    }
 }

@@ -28,12 +28,22 @@ public class IniciarMundo {
     private static short CHAO = 0x0002;
     private static short ESCADA = 0x0004;
     private static short CHECKPOINT_ESCADA = 0x0008;
+    private static short PAREDE_INVISIVEL = 256;
+    private static short PAINEL = 512;
+    private static short OURO = 1024;
 
     private Deck deckDeVidas;
+    private Martelo martelo;
 
-    public IniciarMundo(Deck deckDeVidas) {
+    public void setDeckDeVidas(Deck deckDeVidas) {
         this.deckDeVidas = deckDeVidas;
+    }
 
+    public void setMartelo(Martelo martelo) {
+        this.martelo = martelo;
+    }
+
+    public IniciarMundo() {
         //Primeiro o mundo
         mundo = new World(new Vector2(0, -10), true);
         renderizadorBox2D = new Box2DDebugRenderer();
@@ -105,13 +115,54 @@ public class IniciarMundo {
             fdef.isSensor = false;
             fdef.filter.categoryBits = CHECKPOINT_ESCADA;
 
-            body.createFixture(fdef).setUserData("chao");
+            body.createFixture(fdef).setUserData("escadaCheckpoint");
         }
+
+        for (MapObject object : mapa.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+            //segundo geramos os blocos que representam o chão
+            //como tudo é retangular, fica facil representar no jogo
+
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / StartGame.CONVERSAO_METRO_PIXEL,
+                    (rect.getY() + rect.getHeight() / 2) / StartGame.CONVERSAO_METRO_PIXEL);
+
+            body = mundo.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 / StartGame.CONVERSAO_METRO_PIXEL, rect.getHeight() / 2 / StartGame.CONVERSAO_METRO_PIXEL);
+            fdef.shape = shape;
+            fdef.isSensor = false;
+            fdef.filter.categoryBits = PAREDE_INVISIVEL;
+
+            body.createFixture(fdef).setUserData("paredeInvisivel");
+        }
+
+        for (MapObject object : mapa.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
+            //segundo geramos os blocos que representam o chão
+            //como tudo é retangular, fica facil representar no jogo
+
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / StartGame.CONVERSAO_METRO_PIXEL,
+                    (rect.getY() + rect.getHeight() / 2) / StartGame.CONVERSAO_METRO_PIXEL);
+
+            body = mundo.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 / StartGame.CONVERSAO_METRO_PIXEL, rect.getHeight() / 2 / StartGame.CONVERSAO_METRO_PIXEL);
+            fdef.shape = shape;
+            fdef.isSensor = true;
+            fdef.filter.categoryBits = PAINEL;
+
+            body.createFixture(fdef).setUserData("painel");
+        }
+
 
         //adiciono um novo listener para o mundo, que servira para informar em que objeto o mario está colidindo
         //servirá principalmente para subir as escadas
         //como a função listener faz tudo internamente, não é necessário gerar uma variavel para a interface, basta criar a instancia
-        mundo.setContactListener(new ContactListener(mundo, deckDeVidas));
+//        mundo.setContactListener(new ContactListener(mundo, deckDeVidas, martelo));
     }
 
     public Box2DDebugRenderer getRenderizadorBox2D() {

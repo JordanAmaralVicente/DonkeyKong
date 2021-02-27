@@ -21,6 +21,10 @@ public class Deck {
         });
     }
 
+    public int getVidas() {
+        return vidas;
+    }
+
     public boolean atualizarVida(){
         if(vidas > 0){
             vidas--;

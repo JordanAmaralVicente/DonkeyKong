@@ -13,7 +13,7 @@ public class Princesa {
     public Body corpo;
     private int posX, posY, height, width;
     private World world;
-    private static final int PRINCESA = 32;
+    private static final short PRINCESA = 500;
 
     public Princesa(int posX, int posY, int height, int width, World world){
         this.spritePrincesa = new Sprite(new Texture(Gdx.files.internal("personagens/princesa/princesa.png")));
@@ -30,7 +30,7 @@ public class Princesa {
     private void criaCorpoPrincesa() {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
-        float posXIncrement = this.posX + this.width/2;
+        float posXIncrement = this.posX + this.width + 30;
         float posYIncrement = this.posY + this.height/2;
 
         bdef.position.set(posXIncrement/ StartGame.CONVERSAO_METRO_PIXEL, posYIncrement / StartGame.CONVERSAO_METRO_PIXEL);
@@ -39,7 +39,7 @@ public class Princesa {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        float widthIncrement = this.width * 4;
+        float widthIncrement = this.width * 20;
         float heightIncrement = this.height * 3/2;
 
         shape.setAsBox((widthIncrement / 8f) / StartGame.CONVERSAO_METRO_PIXEL,

@@ -1,5 +1,0 @@
-0 = GRÁFICO
-1 = ESCADA
-2 = CHÃO
-
-OBS: TAPA.

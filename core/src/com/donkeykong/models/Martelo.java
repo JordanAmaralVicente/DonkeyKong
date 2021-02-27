@@ -11,8 +11,10 @@ public class Martelo extends Sprite {
 
     private int posicaoX, posicaoY;
     public Body corpo;
+    public static boolean autoDestruir;
 
     private static short MARTELO = 32;
+    private boolean visible = true;
 
     public Martelo(int posicaoX, int posicaoY, World mundo) {
         super(new Texture(Gdx.files.internal("componentes/martelo.png")), 30, 46);
@@ -44,5 +46,23 @@ public class Martelo extends Sprite {
 
         corpo.createFixture(fdef).setUserData("martelo");
 
+    }
+
+    public void update(){
+        if(autoDestruir){
+            mundo.destroyBody(corpo);
+            autoDestruir = false;
+            visible = false;
+
+        }
+    }
+
+    public void adeusMartelo(){
+        //setTexture(null);
+        //mundo.destroyBody(corpo);
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 }
