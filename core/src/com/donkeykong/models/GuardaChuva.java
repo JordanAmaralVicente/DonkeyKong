@@ -9,10 +9,9 @@ import com.donkeykong.controllers.StartGame;
 public class GuardaChuva extends Sprite {
     public World mundo;
 
-    private int posicaoX, posicaoY;
+    private final int posicaoX;
+    private final int posicaoY;
     public Body corpo;
-
-    private static short GUARDA_CHUVA = 64;
 
     public GuardaChuva(int posicaoX, int posicaoY, World mundo) {
         super(new Texture(Gdx.files.internal("componentes/guardaChuva.png")), 30, 28);
@@ -34,13 +33,10 @@ public class GuardaChuva extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        //PolygonShape shape = new PolygonShape();
-        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
-        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.shape = shape;
         fdef.isSensor = false;
-        fdef.filter.categoryBits = GUARDA_CHUVA;
+        fdef.filter.categoryBits = BitsDeColisao.GUARDA_CHUVA;
 
         corpo.createFixture(fdef).setUserData("guardaChuva");
     }

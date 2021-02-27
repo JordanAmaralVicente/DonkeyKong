@@ -1,49 +1,34 @@
 package com.donkeykong.models;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 
 public class Macaco {
-    private Texture imageRight;
-    private Texture imageLeft;
 
     private Animation<TextureRegion> bateNoPeitoAnimation;
-    private TextureRegion macacoFrame;
     private static final float BATER_FRAME_DURATION = 0.5f;
     float stateTime = 0f;
 
     public Sprite spriteMacaco;
 
-    private int height;
-    private int width;
-    private int posicaoX;
-    private int posicaoY;
+    private final int posicaoX;
+    private final int posicaoY;
 
-
-    public Macaco(int posX, int posY) {
-        this.posicaoX = posX;
-        this.posicaoY = posY;
-    }
 
     public Macaco(int posX, int posY, int height, int width) {
         this.posicaoX = posX;
         this.posicaoY = posY;
-        this.height = height;
-        this.width = width;
-        //this.imageLeft = new Texture(Gdx.files.internal("personagens/donkey/donkey_left.png"));
-        //this.imageRight = new Texture(Gdx.files.internal("personagens/donkey/donkey_right.png"));
-        //this.spriteMacaco = new Sprite(this.imageRight);
+
         this.spriteMacaco = new Sprite();
         this.spriteMacaco.setPosition(this.posicaoX, this.posicaoY);
-        this.spriteMacaco.setSize(this.width, this.height);
+        this.spriteMacaco.setSize(width, height);
 
         loadTextures();
     }
 
     public void draw(SpriteBatch batch, float delta) {
         stateTime += delta;
-        macacoFrame = bateNoPeitoAnimation.getKeyFrame(stateTime, true);
+        TextureRegion macacoFrame = bateNoPeitoAnimation.getKeyFrame(stateTime, true);
         spriteMacaco.setRegion(macacoFrame);
         this.spriteMacaco.draw(batch);
     }

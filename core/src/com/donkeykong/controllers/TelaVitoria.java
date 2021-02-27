@@ -7,22 +7,30 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.donkeykong.models.IniciarTelaFinal;
 import com.donkeykong.models.TextoFinal;
 
-public class Tela3 extends ScreenAdapter {
+public class TelaVitoria extends ScreenAdapter {
     StartGame game;
+    IniciarTelaFinal iniciarTelaFinal;
+    TiledMapRenderer renderizadorMapa;
     TextoFinal gameOver;
 
-    public Tela3(StartGame game) {
-        this.game = game;
-        gameOver = new TextoFinal("Você perdeu");
 
+    public TelaVitoria(StartGame game) {
+        this.game = game;
+        gameOver = new TextoFinal("Você ganhou");
+        iniciarTelaFinal = new IniciarTelaFinal();
+        renderizadorMapa = iniciarTelaFinal.getRenderizadorMapa(); //inicializa o mapa da vitoria
+
+        renderizadorMapa.setView(game.cam); //atualiza o novo mapa na tela
         game.cam.update();
+
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, .25f, 1);
+        Gdx.gl.glClearColor(0, 0, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        renderizadorMapa.render();
         game.cam.update();
 
         game.batch.begin();

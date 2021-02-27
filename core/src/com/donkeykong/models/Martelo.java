@@ -9,18 +9,18 @@ import com.donkeykong.controllers.StartGame;
 public class Martelo extends Sprite {
     public World mundo;
 
-    private int posicaoX, posicaoY;
+    private final int posicaoX;
+    private final int posicaoY;
     public Body corpo;
-    public static boolean autoDestruir;
 
-    private static short MARTELO = 32;
-    private boolean visible = true;
+    private  boolean autoDestruir = false, visible = true;
 
     public Martelo(int posicaoX, int posicaoY, World mundo) {
         super(new Texture(Gdx.files.internal("componentes/martelo.png")), 30, 46);
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.mundo = mundo;
+
         criaCorpoMartelo();
 
         setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
@@ -36,33 +36,29 @@ public class Martelo extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        //PolygonShape shape = new PolygonShape();
-        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
-        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.shape = shape;
         fdef.isSensor = false;
-        fdef.filter.categoryBits = MARTELO;
+        fdef.filter.categoryBits = BitsDeColisao.MARTELO;
 
         corpo.createFixture(fdef).setUserData("martelo");
 
     }
 
     public void update(){
+        //se for necessário remover o martelo
         if(autoDestruir){
             mundo.destroyBody(corpo);
             autoDestruir = false;
-            visible = false;
-
+            visible = false; //marcado para não ser mais desenhado
         }
-    }
-
-    public void adeusMartelo(){
-        //setTexture(null);
-        //mundo.destroyBody(corpo);
     }
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public void setAutoDestruir(boolean autoDestruir) {
+        this.autoDestruir = autoDestruir;
     }
 }

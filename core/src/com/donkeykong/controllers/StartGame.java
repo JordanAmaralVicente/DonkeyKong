@@ -9,7 +9,7 @@ public class StartGame extends Game {
     SpriteBatch batch;
     OrthographicCamera cam;
     
-    public final static float CONVERSAO_METRO_PIXEL = 40f;
+    public final static float CONVERSAO_METRO_PIXEL = 40f; //conversão de metro (box2d) para pixel (o resto do libgdx)
 
     @Override
     public void create() {

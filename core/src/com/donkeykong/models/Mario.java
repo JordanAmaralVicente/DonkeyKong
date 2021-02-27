@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.donkeykong.controllers.StartGame;
-import jdk.javadoc.internal.tool.Start;
 
+@SuppressWarnings("rawtypes")
 public class Mario extends Sprite {
     //Constantes
     private static final float RUNNING_FRAME_DURATION = 0.25f;
@@ -19,11 +19,9 @@ public class Mario extends Sprite {
 
     //Controle de condicoes
     private Estado estadoAtual;
-    private int contagemDeVidas;
-    private boolean facingRight = true;
-    public static boolean estaComOMartelo;
-    public static boolean estouNaEscada = false, estouNoChao = true;
-    private int vida;
+    private boolean estouNaEscada = false, estouNoChao = true,
+            transformado = false, estouMorto = false,
+            olhandoParaADireita = true, estaComOMartelo = false;
 
     //Texturas
     private TextureRegion marioParadoEsquerda;
@@ -41,33 +39,32 @@ public class Mario extends Sprite {
     float stateTime = 0f;
 
     //Componentes do personagem
-    private Sound som;
-    private int posicaoX, posicaoY;
+    private final int posicaoX;
+    private final int posicaoY; //posicoes iniciais
     public Body corpo;
 
-    private float timeSeconds = 0f;
-    private float period = 1f;
+    //Controle do tempo durante o update
+    private float tempoPassado = 0f;
 
-    public boolean transformado = false;
-    public boolean morri = false;
-
-    private Sound somAndando;
-    private Sound somPulando;
-    private Sound somMorrendo;
-
+    //Sons
+    private final Sound somAndando;
+    private final Sound somPulando;
+    private final Sound somMorrendo;
 
     public Mario(int posicaoX, int posicaoY, World mundo) {
         super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 80, 42);
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.mundo = mundo;
-        this.contagemDeVidas = 3;
 
+        //inicializando os sons
         somAndando = Gdx.audio.newSound(Gdx.files.internal("sons/walk.wav"));
         somPulando = Gdx.audio.newSound(Gdx.files.internal("sons/jump.wav"));
         somMorrendo = Gdx.audio.newSound(Gdx.files.internal("sons/die.wav"));
 
+        //o Mario começa olhando para a direita
         estadoAtual = Estado.PARADO_DIREITA;
+
         criaCorpoMario();
         loadTextures();
 
@@ -124,11 +121,8 @@ public class Mario extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        //PolygonShape shape = new PolygonShape();
-        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
-        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(6 / StartGame.CONVERSAO_METRO_PIXEL);
-        fdef.filter.categoryBits = 1;
+        fdef.filter.categoryBits = BitsDeColisao.MARIO;
         fdef.shape = shape;
 
         corpo.createFixture(fdef).setUserData("mario");
@@ -150,7 +144,7 @@ public class Mario extends Sprite {
         //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
         //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(10 / StartGame.CONVERSAO_METRO_PIXEL);
-        fdef.filter.categoryBits = 1;
+        fdef.filter.categoryBits = BitsDeColisao.MARIO;
         fdef.shape = shape;
 
         corpo.createFixture(fdef).setUserData("marioComMartelo");
@@ -172,40 +166,39 @@ public class Mario extends Sprite {
         //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
         //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
-        fdef.filter.categoryBits = 1;
+        fdef.filter.categoryBits = BitsDeColisao.MARIO;
         fdef.shape = shape;
 
         corpo.createFixture(fdef).setUserData("mario");
     }
 
-
-    public void mover(float dt, int direcao) {
+    public void mover(int direcao) {
         switch (direcao) {
             case 19:
-                if (Mario.estouNaEscada) {
-                    corpo.setLinearVelocity(new Vector2(0, 1.5f));
+                if (estouNaEscada) {
+                    corpo.setLinearVelocity(new Vector2(0, 2f));
                 }
                 break;
             case 20:
-                if (Mario.estouNaEscada) {
-                    corpo.setLinearVelocity(new Vector2(0, -1.5f));
+                if (estouNaEscada) {
+                    corpo.setLinearVelocity(new Vector2(0, -2f));
                 }
                 break;
             case 21:
                 if ((corpo.getPosition().x) >= 25 / 40f) {
                     corpo.setLinearVelocity(new Vector2(-1.5f, 0));
-                    facingRight = false;
+                    olhandoParaADireita = false;
                 }
                 break;
             case 22:
                 if ((corpo.getPosition().x) <= 672 / 40f) {
                     corpo.setLinearVelocity(new Vector2(1.5f, 0));
-                    facingRight = true;
+                    olhandoParaADireita = true;
                 }
                 break;
             case 62:
                 if (corpo.getLinearVelocity().y == 0 && estouNoChao) {
-                    if (facingRight)
+                    if (olhandoParaADireita)
                         corpo.setLinearVelocity(new Vector2(1.5f, 4f));
                     else
                         corpo.setLinearVelocity(new Vector2(-1.5f, 4f));
@@ -218,60 +211,72 @@ public class Mario extends Sprite {
     }
 
     public void update(float delta) {
-        stateTime += delta;
+        stateTime += delta; //guarda a passagem do tempo
+
+        setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
+                (corpo.getPosition().y) * StartGame.CONVERSAO_METRO_PIXEL);
+
+        //de modo geral, a sequência das seguintes verificações condicionais não interfere no resultado
 
         if (estaComOMartelo) {
             criaCorpoMarioMartelo();
-            estaComOMartelo = false;
-            transformado = true;
+            estaComOMartelo = false; //se a variavel se mantivesse verdadeira, o jogo travaria, porque criaria o novo corpo infinitamente
+            transformado = true; //usamos essa variavel para saber se ele ainda está com o martelo
         }
 
-        if(morri){
+        //verifica se o mario levou dano
+        if (estouMorto) {
+            //volta para a posição inicial
             corpo.setTransform(posicaoX / StartGame.CONVERSAO_METRO_PIXEL, posicaoY / StartGame.CONVERSAO_METRO_PIXEL, 0);
-            morri = false;
+            estouMorto = false; //reseta a variavel
         }
 
-        if(corpo.getLinearVelocity().x > 0 || corpo.getLinearVelocity().x < 0){
+        //toca a música enquanto o mario estiver se movimentando
+        if (corpo.getLinearVelocity().x > 0 || corpo.getLinearVelocity().x < 0) {
             somAndando.resume();
         } else {
             somAndando.pause();
         }
 
-        setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
-                (corpo.getPosition().y) * StartGame.CONVERSAO_METRO_PIXEL);
+        //Sequencia de verificações para saber qual textura utilizar no momento
 
+        //verifica se está se movimentando para os lados
         if (corpo.getLinearVelocity().x > 0 && corpo.getLinearVelocity().y == 0)
             estadoAtual = Estado.CORRENDO_DIREITA;
         else if (corpo.getLinearVelocity().x < 0 && corpo.getLinearVelocity().y == 0)
             estadoAtual = Estado.CORRENDO_ESQUERDA;
 
-        if (corpo.getLinearVelocity().x == 0 && facingRight && corpo.getLinearVelocity().y == 0)
+        //verifica para qual lado está olhando
+        if (corpo.getLinearVelocity().x == 0 && olhandoParaADireita && corpo.getLinearVelocity().y == 0)
             //estadoAtual = Estado.PARADO_DIREITA;
             //estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_DIREITA;
             estadoAtual = Estado.PARADO_DIREITA;
-        else if (corpo.getLinearVelocity().x == 0 && !facingRight && corpo.getLinearVelocity().y == 0)
+        else if (corpo.getLinearVelocity().x == 0 && !olhandoParaADireita && corpo.getLinearVelocity().y == 0)
             //estadoAtual = Estado.PARADO_ESQUERDA;
             //estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_ESQUERDA;
             estadoAtual = Estado.PARADO_ESQUERDA;
 
-        if (corpo.getLinearVelocity().y != 0 && !Mario.estouNaEscada && facingRight)
+        //verifica se está pulando e se está pulando
+        if (corpo.getLinearVelocity().y != 0 && !estouNaEscada && olhandoParaADireita)
             estadoAtual = Estado.PULANDO_DIREITA;
-        else if (corpo.getLinearVelocity().y != 0 && !Mario.estouNaEscada && !facingRight)
+        else if (corpo.getLinearVelocity().y != 0 && !estouNaEscada && !olhandoParaADireita)
             estadoAtual = Estado.PULANDO_ESQUERDA;
 
-        if (corpo.getLinearVelocity().y != 0 && Mario.estouNaEscada)
+        //verifica se está escalando
+        if (corpo.getLinearVelocity().y != 0 && estouNaEscada)
             estadoAtual = Estado.ESCALANDO;
 
-        if(transformado){
-            timeSeconds += delta;
-            estadoAtual = facingRight ? Estado.MARTELO_DIREITA : Estado.MARTELO_ESQUERDA;
-            if(timeSeconds > 10){
+        //se o mario estiver transformado, essa parte é utilizada para saber quando ele deve voltar para o normal
+        if (transformado) {
+            tempoPassado += delta; //cada passagem é um segundo
+            estadoAtual = olhandoParaADireita ? Estado.MARTELO_DIREITA : Estado.MARTELO_ESQUERDA;
+            if (tempoPassado > 10f) { //10 segundos de duração do martelo
                 reCriaCorpoMario();
                 transformado = false;
             }
         }
 
-        //Muda a sprite do MARIO
+        //Muda a sprite do MARIO de acordo com o resultado das verificações
         switch (estadoAtual) {
             case PARADO_DIREITA:
                 marioFrame = marioParadoDireita;
@@ -302,34 +307,28 @@ public class Mario extends Sprite {
                 break;
         }
 
-        setRegion(marioFrame);
+        setRegion(marioFrame); //a nova textura
     }
 
-    public int getPosicaoX() {
-        return this.posicaoX;
-    }
-
-    public int getPosicaoY() {
-        return this.posicaoY;
-    }
-
-    public void diminuiVidas() {
-        this.contagemDeVidas--;
-    }
-
-    public void resetaVidas() {
-        this.contagemDeVidas = 3;
-    }
-
-    public void verificaColisao(Body body){
-        short x = body.getFixtureList().first().getFilterData().categoryBits;
-        if(transformado){
-            body.setUserData("destruir");
-        }
-        else{
-            morri = true;
+    public void verificaColisao(Body body) { //verifica a colisão com o inimigo
+        if (transformado) { //se estiver com o martelo, destroe o fogo
+            body.setUserData("destruir"); //marca o inimigo para a destruição
+        } else {
+            estouMorto = true; //perdeu uma vida
             somMorrendo.play();
         }
 
+    }
+
+    public void setEstaComOMartelo(boolean estaComOMartelo) {
+        this.estaComOMartelo = estaComOMartelo;
+    }
+
+    public void setEstouNaEscada(boolean estouNaEscada) {
+        this.estouNaEscada = estouNaEscada;
+    }
+
+    public void setEstouNoChao(boolean estouNoChao) {
+        this.estouNoChao = estouNoChao;
     }
 }

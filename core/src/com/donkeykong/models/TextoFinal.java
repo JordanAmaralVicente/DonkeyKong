@@ -3,9 +3,6 @@ package com.donkeykong.models;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.concurrent.TimeUnit;
 
 public class TextoFinal {
     private final BitmapFont bitmapFont   ;

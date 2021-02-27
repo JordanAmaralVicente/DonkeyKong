@@ -8,13 +8,12 @@ import com.donkeykong.controllers.StartGame;
 
 public class IniciarTelaFinal {
 
-    //Tiledmap variaveis
-    private TiledMap mapa;
-    private TiledMapRenderer renderizadorMapa;
+    private final TiledMapRenderer renderizadorMapa;
 
     public IniciarTelaFinal() {
 
-        mapa = new TmxMapLoader().load("cenarios/img2.tmx");
+        //Tiledmap variaveis
+        TiledMap mapa = new TmxMapLoader().load("cenarios/img2.tmx");
         renderizadorMapa = new OrthogonalTiledMapRenderer(mapa, 1 / StartGame.CONVERSAO_METRO_PIXEL);
 
     }
