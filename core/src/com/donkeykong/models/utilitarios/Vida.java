@@ -1,4 +1,4 @@
-package com.donkeykong.models;
+package com.donkeykong.models.utilitarios;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

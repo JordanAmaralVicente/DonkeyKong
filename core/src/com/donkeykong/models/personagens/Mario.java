@@ -1,4 +1,4 @@
-package com.donkeykong.models;
+package com.donkeykong.models.personagens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.donkeykong.controllers.StartGame;
+import com.donkeykong.visao.StartGame;
+import com.donkeykong.models.BitsDeColisao;
+import com.donkeykong.models.Estado;
 
 @SuppressWarnings("rawtypes")
 public class Mario extends Sprite {

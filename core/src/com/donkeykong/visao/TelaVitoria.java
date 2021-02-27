@@ -1,11 +1,11 @@
-package com.donkeykong.controllers;
+package com.donkeykong.visao;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.donkeykong.models.IniciarTelaFinal;
-import com.donkeykong.models.TextoFinal;
+import com.donkeykong.models.utilitarios.IniciarTelaFinal;
+import com.donkeykong.models.utilitarios.TextoFinal;
 
 public class TelaVitoria extends ScreenAdapter {
     StartGame game;

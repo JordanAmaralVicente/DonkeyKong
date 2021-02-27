@@ -1,4 +1,4 @@
-package com.donkeykong.controllers;
+package com.donkeykong.visao;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,7 +8,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.donkeykong.models.*;
+import com.donkeykong.models.objetos.GuardaChuva;
+import com.donkeykong.models.objetos.Martelo;
+import com.donkeykong.models.objetos.Pontuacao;
+import com.donkeykong.models.personagens.Inimigo;
+import com.donkeykong.models.personagens.Macaco;
+import com.donkeykong.models.personagens.Mario;
+import com.donkeykong.models.personagens.Princesa;
+import com.donkeykong.models.objetos.Deck;
+import com.donkeykong.models.utilitarios.GerenciadorDeContato;
+import com.donkeykong.models.utilitarios.IniciarMundo;
 
 import java.util.LinkedList;
 

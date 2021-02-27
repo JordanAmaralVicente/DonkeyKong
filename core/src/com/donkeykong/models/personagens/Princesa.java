@@ -1,10 +1,11 @@
-package com.donkeykong.models;
+package com.donkeykong.models.personagens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
-import com.donkeykong.controllers.StartGame;
+import com.donkeykong.visao.StartGame;
+import com.donkeykong.models.BitsDeColisao;
 
 public class Princesa extends Sprite{
     public Body corpo;

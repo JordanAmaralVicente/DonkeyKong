@@ -1,4 +1,4 @@
-package com.donkeykong.models;
+package com.donkeykong.models.utilitarios;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -9,7 +9,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.donkeykong.controllers.StartGame;
+import com.donkeykong.visao.StartGame;
+import com.donkeykong.models.BitsDeColisao;
 
 public class IniciarMundo {
     //Box2D variaveis

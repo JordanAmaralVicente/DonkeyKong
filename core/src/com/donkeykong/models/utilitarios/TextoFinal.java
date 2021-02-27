@@ -1,4 +1,4 @@
-package com.donkeykong.models;
+package com.donkeykong.models.utilitarios;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

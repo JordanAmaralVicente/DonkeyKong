@@ -1,7 +1,11 @@
-package com.donkeykong.models;
+package com.donkeykong.models.utilitarios;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.donkeykong.controllers.Tela1;
+import com.donkeykong.visao.Tela1;
+import com.donkeykong.models.BitsDeColisao;
+import com.donkeykong.models.objetos.Martelo;
+import com.donkeykong.models.personagens.Mario;
+import com.donkeykong.models.objetos.Deck;
 
 public class GerenciadorDeContato implements ContactListener {
     //Componentes para enviar sinais das colisões

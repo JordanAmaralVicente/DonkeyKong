@@ -1,10 +1,10 @@
-package com.donkeykong.models;
+package com.donkeykong.models.utilitarios;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.donkeykong.controllers.StartGame;
+import com.donkeykong.visao.StartGame;
 
 public class IniciarTelaFinal {
 

@@ -1,4 +1,4 @@
-package com.donkeykong.controllers;
+package com.donkeykong.visao;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

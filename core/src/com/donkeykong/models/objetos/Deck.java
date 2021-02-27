@@ -1,6 +1,7 @@
-package com.donkeykong.models;
+package com.donkeykong.models.objetos;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.donkeykong.models.utilitarios.Vida;
 
 import java.util.ArrayList;
 
