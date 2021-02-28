@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="87" height="175" tilewidth="8" tileheight="4" infinite="0" nextlayerid="8" nextobjectid="321">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="87" height="175" tilewidth="8" tileheight="4" infinite="0" nextlayerid="8" nextobjectid="322">
  <tileset firstgid="1" source="imagem.tsx"/>
  <layer id="1" name="grafico" width="87" height="175">
   <data encoding="csv">
@@ -204,7 +204,7 @@
   <object id="7" x="520.313" y="424.875" width="64.375" height="25.75"/>
   <object id="9" x="193.813" y="299.875" width="113.042" height="24.25"/>
   <object id="10" x="108.328" y="425.792" width="61.693" height="25.75"/>
-  <object id="11" x="94.3125" y="298.375" width="75.7083" height="27.5"/>
+  <object id="11" x="129.313" y="298.375" width="39.7083" height="27.5"/>
   <object id="12" x="520.646" y="299.125" width="38.7083" height="25.75"/>
   <object id="13" x="520.313" y="173.458" width="37.875" height="25.75"/>
   <object id="14" x="356.521" y="299.88" width="140.167" height="24.25"/>
@@ -250,6 +250,7 @@
   <object id="262" x="119.691" y="173.79" width="8.61743" height="25.75"/>
   <object id="319" x="496.691" y="175.125" width="8.61743" height="25.75"/>
   <object id="320" x="186.691" y="174.125" width="8.61743" height="25.75"/>
+  <object id="321" x="95.358" y="298.38" width="32.2841" height="27.5"/>
  </objectgroup>
  <objectgroup id="5" name="paredeInvisivel">
   <object id="284" x="2" y="16" width="5" height="668"/>
@@ -268,7 +269,7 @@
   <object id="302" x="139" y="201" width="34" height="65"/>
   <object id="303" x="32" y="72" width="598" height="52"/>
   <object id="304" x="9" y="156" width="15" height="355"/>
-  <object id="305" x="65" y="154" width="16" height="101"/>
+  <object id="305" x="62" y="154" width="16" height="101"/>
   <object id="306" x="618" y="190" width="49" height="80"/>
   <object id="307" x="638" y="297" width="33" height="97"/>
   <object id="308" x="659" y="415" width="26" height="102"/>

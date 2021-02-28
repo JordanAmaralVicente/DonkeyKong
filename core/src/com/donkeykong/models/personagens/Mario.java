@@ -164,9 +164,6 @@ public class Mario extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        //PolygonShape shape = new PolygonShape();
-        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
-        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(8 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.filter.categoryBits = BitsDeColisao.MARIO;
         fdef.shape = shape;
@@ -250,12 +247,8 @@ public class Mario extends Sprite {
 
         //verifica para qual lado está olhando
         if (corpo.getLinearVelocity().x == 0 && olhandoParaADireita && corpo.getLinearVelocity().y == 0)
-            //estadoAtual = Estado.PARADO_DIREITA;
-            //estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_DIREITA;
             estadoAtual = Estado.PARADO_DIREITA;
         else if (corpo.getLinearVelocity().x == 0 && !olhandoParaADireita && corpo.getLinearVelocity().y == 0)
-            //estadoAtual = Estado.PARADO_ESQUERDA;
-            //estadoAtual = corpo.getLinearVelocity().y != 0 ? Estado.ESCALANDO : Estado.PARADO_ESQUERDA;
             estadoAtual = Estado.PARADO_ESQUERDA;
 
         //verifica se está pulando e se está pulando

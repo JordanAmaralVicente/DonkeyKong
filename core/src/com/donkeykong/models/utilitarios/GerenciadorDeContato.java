@@ -51,9 +51,11 @@ public class GerenciadorDeContato implements ContactListener {
         if (primeiroBit == BitsDeColisao.FOGO || segundoBit == BitsDeColisao.FOGO) {
             if (primeiroBit == BitsDeColisao.MARIO || segundoBit == BitsDeColisao.MARIO) {
 
-                if (deckDeVidas.getVidas() == 1) //se não restam mais vida
+                if (deckDeVidas.getVidas() == 1){
+                    //se não restam mais vida
                     tela1.dispose();
                     tela1.setPerdeuOJogo(true);
+                }
 
                 //é preciso saber qual dos dois bits é o fogo, para enviar o correto para a verificação de colisão do mario
                 if (primeiroBit == BitsDeColisao.FOGO) {
