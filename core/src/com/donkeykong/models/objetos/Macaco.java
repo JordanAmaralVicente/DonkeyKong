@@ -1,4 +1,4 @@
-package com.donkeykong.models.personagens;
+package com.donkeykong.models.objetos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;

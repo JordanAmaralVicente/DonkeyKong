@@ -46,7 +46,6 @@ public class GerenciadorDeContato implements ContactListener {
         //mario e os inimigos
         if (primeiroBit == BitsDeColisao.FOGO || segundoBit == BitsDeColisao.FOGO) {
             if (primeiroBit == BitsDeColisao.MARIO || segundoBit == BitsDeColisao.MARIO) {
-                deckDeVidas.atualizarVida(); //diminui uma vida
 
                 if (deckDeVidas.getVidas() == 0) //se não restam mais vida
                     tela1.setPerdeuOJogo(true);

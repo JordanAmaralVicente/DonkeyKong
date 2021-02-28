@@ -46,7 +46,7 @@ public class Martelo extends Sprite {
 
     }
 
-    public void update(){
+    public void render(){
         //se for necessário remover o martelo
         if(autoDestruir){
             mundo.destroyBody(corpo);

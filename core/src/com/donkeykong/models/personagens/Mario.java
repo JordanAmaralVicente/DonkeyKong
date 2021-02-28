@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.donkeykong.models.objetos.Deck;
 import com.donkeykong.visao.StartGame;
 import com.donkeykong.models.BitsDeColisao;
 import com.donkeykong.models.Estado;
@@ -24,6 +25,7 @@ public class Mario extends Sprite {
     private boolean estouNaEscada = false, estouNoChao = true,
             transformado = false, estouMorto = false,
             olhandoParaADireita = true, estaComOMartelo = false;
+    private Deck deckDeVidas;
 
     //Texturas
     private TextureRegion marioParadoEsquerda;
@@ -53,11 +55,12 @@ public class Mario extends Sprite {
     private final Sound somPulando;
     private final Sound somMorrendo;
 
-    public Mario(int posicaoX, int posicaoY, World mundo) {
+    public Mario(int posicaoX, int posicaoY, World mundo, Deck deckDeVidas) {
         super(new Texture(Gdx.files.internal("personagens/marioAnimacao/Mario-01.png")), 80, 42);
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.mundo = mundo;
+        this.deckDeVidas = deckDeVidas;
 
         //inicializando os sons
         somAndando = Gdx.audio.newSound(Gdx.files.internal("sons/walk.wav"));
@@ -142,9 +145,6 @@ public class Mario extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        //PolygonShape shape = new PolygonShape();
-        //shape.setAsBox((getWidth() / 8f) / StartGame.CONVERSAO_METRO_PIXEL,
-        //(getHeight() / 2f) / StartGame.CONVERSAO_METRO_PIXEL);
         shape.setRadius(10 / StartGame.CONVERSAO_METRO_PIXEL);
         fdef.filter.categoryBits = BitsDeColisao.MARIO;
         fdef.shape = shape;
@@ -212,7 +212,7 @@ public class Mario extends Sprite {
         }
     }
 
-    public void update(float delta) {
+    public void render(float delta) {
         stateTime += delta; //guarda a passagem do tempo
 
         setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,
@@ -316,6 +316,7 @@ public class Mario extends Sprite {
         if (transformado) { //se estiver com o martelo, destroe o fogo
             body.setUserData("destruir"); //marca o inimigo para a destruição
         } else {
+            deckDeVidas.atualizarVida(); //diminui uma vida
             estouMorto = true; //perdeu uma vida
             somMorrendo.play();
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="87" height="175" tilewidth="8" tileheight="4" infinite="0" nextlayerid="8" nextobjectid="319">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="87" height="175" tilewidth="8" tileheight="4" infinite="0" nextlayerid="8" nextobjectid="321">
  <tileset firstgid="1" source="imagem.tsx"/>
  <layer id="1" name="grafico" width="87" height="175">
   <data encoding="csv">
@@ -184,14 +184,14 @@
   <object id="27" x="620" y="414.886" width="25.5" height="136.614"/>
   <object id="29" x="645" y="541.213" width="28" height="138.159"/>
   <object id="31" x="317.849" y="542.88" width="27.8182" height="134.88"/>
-  <object id="38" x="17.4166" y="538.54" width="27.5833" height="139.804"/>
+  <object id="38" x="17.4166" y="542.54" width="27.5833" height="135.804"/>
   <object id="39" x="444.75" y="418.69" width="26" height="132"/>
   <object id="42" x="468.909" y="167.63" width="27.0909" height="131.136"/>
   <object id="43" x="570.5" y="165.46" width="26" height="133"/>
   <object id="45" x="594.5" y="294.463" width="26" height="135.667"/>
   <object id="46" x="93.5" y="165.75" width="26" height="133.341"/>
   <object id="47" x="66.75" y="293.75" width="27.75" height="132.25"/>
-  <object id="48" x="42.0909" y="415.79" width="27.5455" height="134.114"/>
+  <object id="48" x="42.0909" y="419.79" width="27.5455" height="130.114"/>
   <object id="49" x="219" y="417.818" width="26" height="133.182"/>
   <object id="51" x="318.818" y="292.88" width="26" height="132.545"/>
   <object id="53" x="194" y="165.208" width="26" height="134.917"/>
@@ -248,28 +248,30 @@
   <object id="260" x="459.691" y="173.63" width="8.61743" height="25.75"/>
   <object id="261" x="221.025" y="173.63" width="8.61743" height="25.75"/>
   <object id="262" x="119.691" y="173.79" width="8.61743" height="25.75"/>
+  <object id="319" x="496.691" y="175.125" width="8.61743" height="25.75"/>
+  <object id="320" x="186.691" y="174.125" width="8.61743" height="25.75"/>
  </objectgroup>
  <objectgroup id="5" name="paredeInvisivel">
   <object id="284" x="2" y="16" width="5" height="668"/>
   <object id="285" x="690.5" y="8" width="5" height="668"/>
  </objectgroup>
  <objectgroup id="6" name="painel">
-  <object id="293" x="55" y="576" width="246" height="82"/>
-  <object id="294" x="362" y="575" width="271" height="83"/>
-  <object id="295" x="253" y="452" width="185" height="66"/>
-  <object id="296" x="76" y="452" width="138" height="67"/>
+  <object id="293" x="69" y="575" width="223" height="64"/>
+  <object id="294" x="383" y="575" width="223" height="64"/>
+  <object id="295" x="275" y="452" width="132" height="58"/>
+  <object id="296" x="97" y="451" width="103" height="57"/>
   <object id="297" x="112" y="324" width="190" height="76"/>
-  <object id="298" x="226" y="200" width="236" height="74"/>
-  <object id="299" x="517" y="211" width="40" height="67"/>
-  <object id="300" x="364" y="327" width="215" height="74"/>
-  <object id="301" x="479" y="452" width="136" height="79"/>
-  <object id="302" x="124" y="201" width="49" height="81"/>
-  <object id="303" x="32" y="72" width="598" height="77"/>
-  <object id="304" x="9" y="156" width="24" height="371"/>
-  <object id="305" x="69" y="154" width="16" height="101"/>
-  <object id="306" x="610" y="190" width="55" height="80"/>
-  <object id="307" x="634" y="297" width="33" height="97"/>
-  <object id="308" x="658" y="415" width="26" height="102"/>
+  <object id="298" x="243" y="200" width="198" height="59"/>
+  <object id="299" x="516" y="211" width="40" height="67"/>
+  <object id="300" x="376" y="327" width="187" height="69"/>
+  <object id="301" x="496" y="461" width="101" height="54"/>
+  <object id="302" x="139" y="201" width="34" height="65"/>
+  <object id="303" x="32" y="72" width="598" height="52"/>
+  <object id="304" x="9" y="156" width="15" height="355"/>
+  <object id="305" x="65" y="154" width="16" height="101"/>
+  <object id="306" x="618" y="190" width="49" height="80"/>
+  <object id="307" x="638" y="297" width="33" height="97"/>
+  <object id="308" x="659" y="415" width="26" height="102"/>
   <object id="309" x="681" y="551" width="7" height="118"/>
   <object id="310" x="37" y="281" width="12" height="106"/>
  </objectgroup>

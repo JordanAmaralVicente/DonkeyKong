@@ -15,12 +15,10 @@ public class Inimigo extends Sprite {
     //Texturas
     private TextureRegion fogoFrame;
 
-
     //Animacoes
     private Animation<TextureRegion> moverEsquerdaAnimation;
     private Animation<TextureRegion> moverDireitaAnimation;
     private static final float MOVER_FRAME_DURATION = 0.3f;
-
 
     //Box2D
     public Body corpo;
@@ -63,7 +61,7 @@ public class Inimigo extends Sprite {
         corpo.createFixture(fdef);
     }
 
-    public void update(float delta) {
+    public void render(float delta) {
         stateTime += delta;
 
         setPosition((corpo.getPosition().x) * StartGame.CONVERSAO_METRO_PIXEL,

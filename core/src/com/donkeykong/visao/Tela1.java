@@ -12,9 +12,9 @@ import com.donkeykong.models.objetos.GuardaChuva;
 import com.donkeykong.models.objetos.Martelo;
 import com.donkeykong.models.objetos.Pontuacao;
 import com.donkeykong.models.personagens.Inimigo;
-import com.donkeykong.models.personagens.Macaco;
+import com.donkeykong.models.objetos.Macaco;
 import com.donkeykong.models.personagens.Mario;
-import com.donkeykong.models.personagens.Princesa;
+import com.donkeykong.models.objetos.Princesa;
 import com.donkeykong.models.objetos.Deck;
 import com.donkeykong.models.utilitarios.GerenciadorDeContato;
 import com.donkeykong.models.utilitarios.IniciarMundo;
@@ -66,7 +66,7 @@ public class Tela1 extends ScreenAdapter {
         pontos = new Pontuacao();
         donkeyKong = new Macaco(300, 495, 100, 100);
         fogoList = new LinkedList<>();
-        mario = new Mario(350, 30, mundo);
+        mario = new Mario(350, 30, mundo, deckDeVidas);
         guardaChuva = new GuardaChuva(200, 300, mundo);
         princesa = new Princesa(270, 520, 42, 42, mundo);
         martelo = new Martelo(120, 310, mundo);
@@ -84,8 +84,8 @@ public class Tela1 extends ScreenAdapter {
         spawnEnemy(delta); //começa os fogos
         renderizadorMapa.render(); //renderiza o mapa
         verificaTeclado(); //verifica as entradas do teclado
-        mario.update(delta); //atualiza o mario
-        martelo.update(); //atualiza o martelo
+        mario.render(delta); //atualiza o mario
+        martelo.render(); //atualiza o martelo
 //        b2dr.render(mundo, game.cam.combined);
         game.cam.update(); //atualiza a camera
 
@@ -93,7 +93,7 @@ public class Tela1 extends ScreenAdapter {
             game.batch.begin();
             for (Inimigo fogo : fogoList) {
                 if (fogo.isVisible()) { //verifica se o fogo nõa foi destruido
-                    fogo.update(delta);
+                    fogo.render(delta);
                     game.batch.draw(fogo, fogo.getX() - fogo.getWidth() / 2f,
                             fogo.getY() - fogo.getHeight() / 2f);
                 }
