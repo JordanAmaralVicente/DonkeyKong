@@ -1,6 +1,7 @@
 package com.donkeykong.models.utilitarios;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.donkeykong.models.objetos.Pontuacao;
 import com.donkeykong.visao.Tela1;
 import com.donkeykong.models.BitsDeColisao;
 import com.donkeykong.models.objetos.Martelo;
@@ -11,16 +12,19 @@ public class GerenciadorDeContato implements ContactListener {
     //Componentes para enviar sinais das colisões
     World mundo;
     Deck deckDeVidas;
+    Pontuacao pontos;
     Martelo martelo;
     Mario mario;
     Tela1 tela1;
 
-    public GerenciadorDeContato(World mundo, Deck deckDeVidas, Martelo martelo, Mario mario, Tela1 tela1) {
+    public GerenciadorDeContato(World mundo, Deck deckDeVidas, Pontuacao pontos,
+                                Martelo martelo, Mario mario, Tela1 tela1) {
         this.mundo = mundo;
         this.deckDeVidas = deckDeVidas;
         this.martelo = martelo;
         this.mario = mario;
         this.tela1 = tela1;
+        this.pontos = pontos;
     }
 
     @Override
@@ -47,13 +51,16 @@ public class GerenciadorDeContato implements ContactListener {
         if (primeiroBit == BitsDeColisao.FOGO || segundoBit == BitsDeColisao.FOGO) {
             if (primeiroBit == BitsDeColisao.MARIO || segundoBit == BitsDeColisao.MARIO) {
 
-                if (deckDeVidas.getVidas() == 0) //se não restam mais vida
+                if (deckDeVidas.getVidas() == 1) //se não restam mais vida
+                    tela1.dispose();
                     tela1.setPerdeuOJogo(true);
 
                 //é preciso saber qual dos dois bits é o fogo, para enviar o correto para a verificação de colisão do mario
-                if (primeiroBit == BitsDeColisao.FOGO)
-                    mario.verificaColisao(contact.getFixtureA().getBody());
-                else
+                if (primeiroBit == BitsDeColisao.FOGO) {
+                    if(mario.verificaColisao(contact.getFixtureA().getBody())){
+                        pontos.atualizarPontuacao(1);
+                    }
+                }else
                     mario.verificaColisao(contact.getFixtureB().getBody());
             }
         }

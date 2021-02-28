@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Pontuacao {
-    private int    pontuacaoInicial ;
-    private final BitmapFont bitmapFont   ;
+    private int    pontuacaoInicial;
+    private final BitmapFont bitmapFont;
     private long  tempo;
 
     public Pontuacao(){
@@ -15,40 +15,31 @@ public class Pontuacao {
         this.bitmapFont = new BitmapFont();
         this.bitmapFont.getData().setScale(2, 2);
         this.bitmapFont.setColor(Color.PURPLE);
-
     }
 
     public void atualizarPontuacao(int index){
         //essa função só será chamada em casos específicos
         //esse index vai me ajudar a fazer uma verificação
-        if(index == 0){
-            //pulou inimigo
-            this.pontuacaoInicial += 100;
-        }else if(index == 1){
-            //esmagou inimigo
+        if(index == 1){
             this.pontuacaoInicial += 800;
-        }else if(index == 99){
-            this.pontuacaoInicial = 10;
         }
-
     }
 
-    public void reinicia(){
-        this.pontuacaoInicial = 5000;
-    }
-
+    /** name: atualizaPontosPeloTempo
+     *  | type: public
+     *  | return: boolean
+     *  | Função que vai atualizar a pontuação do jogador de acordo com o tempo
+     *  e retorna verdadeiro ou falso de acordo com os pontos
+     *  | true: se o jogador, após atualizar o tempo, tem pontos positivos
+     *  | false: se o jogador, após atualizar o tempo, não tem pontos
+     * */
     public boolean atualizaPontosPeloTempo(){
-        //Aqui eu tenho que atualizar os pontos com o passar do tempo
         if(TimeUtils.millis() - tempo > 3300 ){
             pontuacaoInicial -= 150;
             tempo = TimeUtils.millis();
+            return pontuacaoInicial > 0;
         }
         return true;
-    }
-
-    public int getPontuacaoFinal(){
-        return this.pontuacaoInicial;
-
     }
 
     public void draw(SpriteBatch batch){

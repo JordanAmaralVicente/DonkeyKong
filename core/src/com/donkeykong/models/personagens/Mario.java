@@ -25,7 +25,7 @@ public class Mario extends Sprite {
     private boolean estouNaEscada = false, estouNoChao = true,
             transformado = false, estouMorto = false,
             olhandoParaADireita = true, estaComOMartelo = false;
-    private Deck deckDeVidas;
+    private final Deck deckDeVidas;
 
     //Texturas
     private TextureRegion marioParadoEsquerda;
@@ -312,15 +312,16 @@ public class Mario extends Sprite {
         setRegion(marioFrame); //a nova textura
     }
 
-    public void verificaColisao(Body body) { //verifica a colisão com o inimigo
+    public boolean verificaColisao(Body body) { //verifica a colisão com o inimigo
         if (transformado) { //se estiver com o martelo, destroe o fogo
             body.setUserData("destruir"); //marca o inimigo para a destruição
+            return true;
         } else {
             deckDeVidas.atualizarVida(); //diminui uma vida
-            estouMorto = true; //perdeu uma vida
+            estouMorto = true;
             somMorrendo.play();
+            return false;
         }
-
     }
 
     public void setEstaComOMartelo(boolean estaComOMartelo) {

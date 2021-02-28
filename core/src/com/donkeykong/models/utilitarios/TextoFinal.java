@@ -10,7 +10,7 @@ public class TextoFinal {
 
     public TextoFinal(String texto){
         this.bitmapFont = new BitmapFont();
-        this.bitmapFont.getData().setScale(5, 5);
+        this.bitmapFont.getData().setScale(3, 3);
         this.bitmapFont.setColor(Color.PURPLE);
 
         this.texto = texto;

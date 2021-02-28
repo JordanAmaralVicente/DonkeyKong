@@ -24,7 +24,7 @@ public class TelaDerrota extends ScreenAdapter {
         game.cam.update();
 
         game.batch.begin();
-        gameOver.draw(game.batch);
+            gameOver.draw(game.batch);
         game.batch.end();
     }
 

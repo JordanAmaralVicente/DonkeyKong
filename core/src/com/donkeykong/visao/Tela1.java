@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.donkeykong.models.objetos.GuardaChuva;
 import com.donkeykong.models.objetos.Martelo;
 import com.donkeykong.models.objetos.Pontuacao;
 import com.donkeykong.models.personagens.Inimigo;
@@ -36,7 +35,6 @@ public class Tela1 extends ScreenAdapter {
     LinkedList<Inimigo> fogoList;
     Macaco donkeyKong;
     Martelo martelo;
-    GuardaChuva guardaChuva;
     Deck deckDeVidas;
     Pontuacao pontos;
     Princesa princesa;
@@ -49,7 +47,8 @@ public class Tela1 extends ScreenAdapter {
 
     Sound somVitoria;
 
-    private boolean ganhouOJogo = false, perdeuOJogo = false;
+    private boolean ganhouOJogo = false;
+    private boolean perdeuOJogo = false;
 
     public Tela1(StartGame game) {
         this.game = game; //instancia do inicio do jogo (a camera está lá e a batch também)
@@ -67,12 +66,11 @@ public class Tela1 extends ScreenAdapter {
         donkeyKong = new Macaco(300, 495, 100, 100);
         fogoList = new LinkedList<>();
         mario = new Mario(350, 30, mundo, deckDeVidas);
-        guardaChuva = new GuardaChuva(200, 300, mundo);
         princesa = new Princesa(270, 520, 42, 42, mundo);
         martelo = new Martelo(120, 310, mundo);
 
 
-        mundo.setContactListener(new GerenciadorDeContato(mundo, deckDeVidas, martelo, mario, this)); //inicia a verificação das colisões
+        mundo.setContactListener(new GerenciadorDeContato(mundo, deckDeVidas,pontos, martelo, mario, this)); //inicia a verificação das colisões
         renderizadorMapa.setView(game.cam);
     }
 
@@ -81,12 +79,16 @@ public class Tela1 extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //limpa a tela
 
         mundo.step(1 / 60f, 6, 2); //passagem de fps do mundo
+
         spawnEnemy(delta); //começa os fogos
+
         renderizadorMapa.render(); //renderiza o mapa
+
         verificaTeclado(); //verifica as entradas do teclado
+
         mario.render(delta); //atualiza o mario
         martelo.render(); //atualiza o martelo
-//        b2dr.render(mundo, game.cam.combined);
+
         game.cam.update(); //atualiza a camera
 
         {//Início da criação das imagens na tela
@@ -99,6 +101,7 @@ public class Tela1 extends ScreenAdapter {
                 }
             }
 
+            pontos.draw(game.batch);
             donkeyKong.draw(game.batch, delta);
             princesa.draw(game.batch);
             deckDeVidas.draw(game.batch);
@@ -107,13 +110,12 @@ public class Tela1 extends ScreenAdapter {
             if (martelo.isVisible())
                 game.batch.draw(martelo, martelo.getX() - martelo.getWidth() / 2f,
                         martelo.getY() - martelo.getHeight() / 2f);
-            game.batch.draw(guardaChuva, guardaChuva.getX() - guardaChuva.getWidth() / 2f,
-                    guardaChuva.getY() - guardaChuva.getHeight() / 2f);
+
             game.batch.end();
         }//Fim da criação das imagens na tela
 
         if (!pontos.atualizaPontosPeloTempo()) {
-            this.dispose();
+            game.setScreen(new TelaDerrota(game));
         }
 
         if(ganhouOJogo){ //se a princesa tiver sido salva
@@ -161,7 +163,6 @@ public class Tela1 extends ScreenAdapter {
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 mario.mover(Input.Keys.LEFT);
-                pontos.atualizarPontuacao(99);
             }
         }
 

@@ -8,8 +8,10 @@ import java.util.ArrayList;
 public class Deck {
     private final ArrayList<Vida> deckDeVidas;
     private int vidas;
+    public boolean vivo;
     public Deck(){
         this.vidas = 3;
+        this.vivo = true;
         this.deckDeVidas = new ArrayList<>();
         this.deckDeVidas.add(new Vida(48, 48, 550, 660));
         this.deckDeVidas.add(new Vida(48, 48, 592, 660));
@@ -28,9 +30,17 @@ public class Deck {
         if(vidas > 0){
             vidas--;
             deckDeVidas.get(vidas).atualizarVida();
-        } else{
+            if(vidas == 0){
+                this.vivo = false;
+            }
+        } else {
             deckDeVidas.get(0).atualizarVida();
+            this.vivo = false;
         }
+    }
+
+    public boolean isAlive(){
+        return this.vivo;
     }
 
 }
