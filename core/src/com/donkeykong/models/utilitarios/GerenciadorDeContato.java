@@ -62,8 +62,12 @@ public class GerenciadorDeContato implements ContactListener {
                     if(mario.verificaColisao(contact.getFixtureA().getBody())){
                         pontos.atualizarPontuacao(1);
                     }
-                }else
-                    mario.verificaColisao(contact.getFixtureB().getBody());
+                }else{
+                    if(mario.verificaColisao(contact.getFixtureB().getBody()))
+                        pontos.atualizarPontuacao(1);
+
+                }
+
             }
         }
 
